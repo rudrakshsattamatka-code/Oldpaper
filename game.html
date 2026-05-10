@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chakri Game - PlayBindas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-header {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .game-balance {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .game-balance .amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        .video-section {
+            background: black;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #liveVideo {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .result-area {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .betting-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .bet-amount-input {
+            margin-bottom: 20px;
+        }
+
+        .bet-amount-input label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .bet-amount-input input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .animal-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .animal-card.selected {
+            border: 3px solid #28a745;
+            background: #e8f5e9;
+        }
+
+        .animal-emoji {
+            font-size: 40px;
+        }
+
+        .bet-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bet-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .bet-history {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .bet-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .bet-item.win {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .bet-item.lose {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .results-history {
+            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .results-history h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .result-item .animal {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .result-item .time {
+            color: #666;
+            font-size: 10px;
+        }
+
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .message.success {
+            background: #28a745;
+            color: white;
+            display: block;
+        }
+
+        .message.error {
+            background: #dc3545;
+            color: white;
+            display: block;
+        }
+
+        .message.info {
+            background: #17a2b8;
+            color: white;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <div class="game-balance">
+                <div style="font-size: 12px;">Your Balance</div>
+                <div class="amount" id="gameBalance">₹0</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="video-section">
+                <div class="video-container">
+                    <video id="liveVideo" autoplay muted loop>
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4">
+                    </video>
+                    <div class="video-overlay">🎬 LIVE | Chakri Game</div>
+                    <div class="result-area" id="resultArea">Place your bets!</div>
+                </div>
+            </div>
+
+            <div class="betting-section">
+                <h3>🎲 Place Your Bet</h3>
+                <div class="bet-amount-input">
+                    <label>Bet Amount (₹)</label>
+                    <input type="number" id="betAmount" placeholder="Enter amount" min="10">
+                </div>
+                
+                <h4>Select Animal (Payout 1:5)</h4>
+                <div class="animals-grid">
+                    <div class="animal-card" data-animal="Tiger"><div class="animal-emoji">🐅</div><div>Tiger</div></div>
+                    <div class="animal-card" data-animal="Elephant"><div class="animal-emoji">🐘</div><div>Elephant</div></div>
+                    <div class="animal-card" data-animal="Cat"><div class="animal-emoji">🐱</div><div>Cat</div></div>
+                    <div class="animal-card" data-animal="Dog"><div class="animal-emoji">🐕</div><div>Dog</div></div>
+                    <div class="animal-card" data-animal="Giraffe"><div class="animal-emoji">🦒</div><div>Giraffe</div></div>
+                    <div class="animal-card" data-animal="Donkey"><div class="animal-emoji">🫏</div><div>Donkey</div></div>
+                </div>
+
+                <button class="bet-btn" id="placeBetBtn">Place Bet</button>
+
+                <div class="bet-history">
+                    <h4>My Recent Bets</h4>
+                    <div id="betHistory"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-history">
+            <h3>📊 Last 20 Game Results</h3>
+            <div class="results-grid" id="resultsHistory">
+                Loading...
+            </div>
+        </div>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, collection, addDoc, query, where, onSnapshot, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDfWOOwjX6nK-kuWnitTbb7_3x2LvmPgA",
+            authDomain: "playbindas.firebaseapp.com",
+            projectId: "playbindas",
+            storageBucket: "playbindas.firebasestorage.app",
+            messagingSenderId: "1084591578297",
+            appId: "1:1084591578297:web:fcdab9361e7a2373250f68",
+            measurementId: "G-RK5636CWLW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        let currentUser = null;
+        let selectedAnimal = null;
+        let canBet = true;
+        let currentBalance = 0;
+
+        function showMessage(text, type = 'info') {
+            const msgDiv = document.getElementById('message');
+            msgDiv.textContent = text;
+            msgDiv.className = `message ${type}`;
+            setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function getAnimalEmoji(animal) {
+            const emojis = {
+                'Tiger': '🐅', 'Elephant': '🐘', 'Cat': '🐱',
+                'Dog': '🐕', 'Giraffe': '🦒', 'Donkey': '🫏'
+            };
+            return emojis[animal] || '🎲';
+        }
+
+        function loadGameResults() {
+            const resultsQuery = query(collection(db, "gameResults"), orderBy("timestamp", "desc"), limit(20));
+            onSnapshot(resultsQuery, (snapshot) => {
+                const resultsDiv = document.getElementById('resultsHistory');
+                if (snapshot.empty) {
+                    resultsDiv.innerHTML = '<p style="text-align:center;color:#999;">No results yet</p>';
+                } else {
+                    resultsDiv.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const result = doc.data();
+                        const date = new Date(result.timestamp);
+                        const formattedTime = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                        resultsDiv.innerHTML += `
+                            <div class="result-item">
+                                <div class="animal">${getAnimalEmoji(result.result)} ${result.result}</div>
+                                <div class="time">${formattedTime}</div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+
+        function listenToGameSettings() {
+            const settingsRef = doc(db, "gameSettings", "current");
+            onSnapshot(settingsRef, (doc) => {
+                if (doc.exists()) {
+                    const settings = doc.data();
+                    canBet = settings.bettingOpen || false;
+                    
+                    if (!canBet) {
+                        document.getElementById('placeBetBtn').disabled = true;
+                        document.getElementById('placeBetBtn').textContent = 'Betting Closed - Wait';
+                    } else {
+                        document.getElementById('placeBetBtn').disabled = false;
+                        document.getElementById('placeBetBtn').textContent = 'Place Bet';
+                    }
+                    
+                    if (settings.streamUrl) {
+                        document.getElementById('liveVideo').src = settings.streamUrl;
+                    }
+                }
+            });
+        }
+
+        function loadBetHistory() {
+            const betsQuery = query(collection(db, "bets"), where("userId", "==", currentUser.uid), orderBy("placedAt", "desc"), limit(10));
+            onSnapshot(betsQuery, (snapshot) => {
+                const historyDiv = document.getElementById('betHistory');
+                if (snapshot.empty) {
+                    historyDiv.innerHTML = '<p style="text-align:center;color:#999;">No bets yet</p>';
+                } else {
+                    historyDiv.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const bet = doc.data();
+                        const date = new Date(bet.placedAt);
+                        historyDiv.innerHTML += `
+                            <div class="bet-item ${bet.status}">
+                                <strong>${bet.animal}</strong> - ₹${bet.amount}<br>
+                                ${bet.status === 'win' ? `🏆 Won: ₹${bet.winAmount}` : bet.status === 'lose' ? '❌ Lost' : '⏳ Pending'}
+                                <small>${date.toLocaleTimeString()}</small>
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+
+        window.placeBet = async function() {
+            if (!canBet) {
+                showMessage('Betting is closed!', 'error');
+                return;
+            }
+            if (!selectedAnimal) {
+                showMessage('Select an animal!', 'error');
+                return;
+            }
+            
+            const betAmount = parseFloat(document.getElementById('betAmount').value);
+            if (betAmount < 10) {
+                showMessage('Minimum bet ₹10!', 'error');
+                return;
+            }
+            if (betAmount > currentBalance) {
+                showMessage('Insufficient balance!', 'error');
+                return;
+            }
+            
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, { balance: currentBalance - betAmount });
+            
+            await addDoc(collection(db, "bets"), {
+                userId: currentUser.uid,
+                userName: currentUser.displayName,
+                animal: selectedAnimal,
+                amount: betAmount,
+                status: 'pending',
+                placedAt: new Date().toISOString()
+            });
+            
+            showMessage(`Bet placed: ₹${betAmount} on ${selectedAnimal}`, 'success');
+            document.getElementById('betAmount').value = '';
+        };
+
+        document.querySelectorAll('.animal-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.animal-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedAnimal = card.getAttribute('data-animal');
+            });
+        });
+
+        window.goBack = function() {
+            window.location.href = 'dashboard.html';
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
+                onSnapshot(userRef, (doc) => {
+                    if (doc.exists()) {
+                        currentBalance = doc.data().balance;
+                        document.getElementById('gameBalance').textContent = `₹${currentBalance}`;
+                    }
+                });
+                
+                listenToGameSettings();
+                loadBetHistory();
+                loadGameResults();
+                
+                document.getElementById('placeBetBtn').addEventListener('click', window.placeBet);
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
