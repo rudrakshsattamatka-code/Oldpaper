@@ -28,18 +28,6 @@
             overflow: hidden;
             width: 100%;
             max-width: 450px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .tabs {
@@ -55,7 +43,6 @@
             cursor: pointer;
             font-weight: 600;
             color: #6c757d;
-            transition: all 0.3s;
             border: none;
             background: none;
             font-size: 16px;
@@ -73,22 +60,10 @@
 
         .form {
             display: none;
-            animation: slideIn 0.3s ease;
         }
 
         .form.active {
             display: block;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         h2 {
@@ -114,13 +89,11 @@
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 14px;
-            transition: all 0.3s;
         }
 
         .input-group input:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         button[type="submit"] {
@@ -133,15 +106,6 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-        }
-
-        button[type="submit"]:active {
-            transform: translateY(0);
         }
 
         .message {
@@ -165,12 +129,6 @@
             display: block;
         }
 
-        .message.info {
-            background: #e3f2fd;
-            color: #1976d2;
-            display: block;
-        }
-
         .forgot-password {
             text-align: center;
             margin-top: 15px;
@@ -180,26 +138,6 @@
             color: #667eea;
             text-decoration: none;
             font-size: 14px;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-
-        /* Loading state */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .loading button {
-            position: relative;
-        }
-
-        .loading button::after {
-            content: "...";
-            position: absolute;
-            margin-left: 5px;
         }
     </style>
 </head>
@@ -211,7 +149,6 @@
         </div>
 
         <div class="form-container">
-            <!-- Login Form -->
             <div id="loginForm" class="form active">
                 <h2>Welcome Back!</h2>
                 <form id="login">
@@ -230,7 +167,6 @@
                 </div>
             </div>
 
-            <!-- Sign Up Form -->
             <div id="signupForm" class="form">
                 <h2>Create Account</h2>
                 <form id="signup">
@@ -258,13 +194,11 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Your Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyBDfWOOwjX6nK-kuWnitTbb7_3x2LvmPgA",
             authDomain: "playbindas.firebaseapp.com",
@@ -275,80 +209,35 @@
             measurementId: "G-RK5636CWLW"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // Make auth available globally for other functions
-        window.auth = auth;
-
-        // Get DOM elements
-        const messageDiv = document.getElementById('message');
-        
-        // Function to show messages
         function showMessage(text, type = 'error') {
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
+            const msgDiv = document.getElementById('message');
+            msgDiv.textContent = text;
+            msgDiv.className = `message ${type}`;
             setTimeout(() => {
-                messageDiv.style.display = 'none';
-                messageDiv.className = 'message';
+                msgDiv.style.display = 'none';
             }, 5000);
         }
 
-        // Login handler
         document.getElementById('login').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            // Show loading state
-            const form = e.target;
-            form.classList.add('loading');
-            
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                
-                showMessage(`Welcome back! Redirecting...`, 'success');
-                
-                // Store user info
-                localStorage.setItem('user', JSON.stringify({
-                    uid: user.uid,
-                    email: user.email,
-                    displayName: user.displayName
-                }));
-                
-                // Redirect to main page after 1.5 seconds
+                await signInWithEmailAndPassword(auth, email, password);
+                showMessage('Login successful! Redirecting...', 'success');
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html'; // You can change this to your video page
+                    window.location.href = 'dashboard.html';
                 }, 1500);
-                
             } catch (error) {
-                let errorMessage = 'Login failed. ';
-                switch(error.code) {
-                    case 'auth/invalid-email':
-                        errorMessage += 'Invalid email format.';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage += 'This account has been disabled.';
-                        break;
-                    case 'auth/user-not-found':
-                        errorMessage += 'No account found with this email.';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMessage += 'Incorrect password.';
-                        break;
-                    default:
-                        errorMessage += error.message;
-                }
-                showMessage(errorMessage);
-            } finally {
-                form.classList.remove('loading');
+                showMessage('Login failed: ' + error.message);
             }
         });
         
-        // Signup handler
         document.getElementById('signup').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -357,76 +246,40 @@
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
             
-            // Validate passwords match
             if (password !== confirmPassword) {
                 showMessage('Passwords do not match!');
                 return;
             }
-            
-            // Validate password length
             if (password.length < 6) {
-                showMessage('Password must be at least 6 characters long!');
+                showMessage('Password must be at least 6 characters!');
                 return;
             }
             
-            // Show loading state
-            const form = e.target;
-            form.classList.add('loading');
-            
             try {
-                // Create user
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+                await updateProfile(userCredential.user, { displayName: name });
                 
-                // Update profile with name
-                await updateProfile(user, {
-                    displayName: name
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    uid: userCredential.user.uid,
+                    name: name,
+                    email: email,
+                    balance: 1000,
+                    createdAt: new Date().toISOString()
                 });
                 
-                showMessage(`Account created successfully! Welcome ${name}! Redirecting...`, 'success');
-                
-                // Store user info
-                localStorage.setItem('user', JSON.stringify({
-                    uid: user.uid,
-                    email: user.email,
-                    displayName: name
-                }));
-                
-                // Redirect after 1.5 seconds
+                showMessage('Account created successfully! Redirecting...', 'success');
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 1500);
-                
             } catch (error) {
-                let errorMessage = 'Signup failed. ';
-                switch(error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage += 'Email already registered. Please login instead.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage += 'Invalid email format.';
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage += 'Password is too weak. Use at least 6 characters.';
-                        break;
-                    default:
-                        errorMessage += error.message;
-                }
-                showMessage(errorMessage);
-            } finally {
-                form.classList.remove('loading');
+                showMessage('Signup failed: ' + error.message);
             }
         });
         
-        // Make functions available globally
         window.switchTab = function(tab) {
-            // Update tab buttons
-            document.querySelectorAll('.tab').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Update forms
             const loginForm = document.getElementById('loginForm');
             const signupForm = document.getElementById('signupForm');
             
@@ -437,46 +290,19 @@
                 loginForm.classList.remove('active');
                 signupForm.classList.add('active');
             }
-            
-            // Clear messages
-            messageDiv.style.display = 'none';
-            messageDiv.className = 'message';
         };
         
         window.resetPassword = async function() {
-            const email = prompt('Enter your email address to reset password:');
-            if (email && email.includes('@')) {
+            const email = prompt('Enter your email address:');
+            if (email) {
                 try {
                     await sendPasswordResetEmail(auth, email);
-                    showMessage('Password reset email sent! Check your inbox.', 'success');
+                    showMessage('Password reset email sent!', 'success');
                 } catch (error) {
-                    let errorMessage = 'Password reset failed. ';
-                    switch(error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage += 'No account found with this email.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage += 'Invalid email format.';
-                            break;
-                        default:
-                            errorMessage += error.message;
-                    }
-                    showMessage(errorMessage);
+                    showMessage('Failed to send reset email.');
                 }
-            } else if (email) {
-                showMessage('Please enter a valid email address.');
             }
         };
-        
-        // Check if user is already logged in
-        const savedUser = localStorage.getItem('user');
-        if (savedUser && window.location.pathname.includes('index.html')) {
-            const user = JSON.parse(savedUser);
-            if (user.uid) {
-                // Auto redirect if already logged in
-                window.location.href = 'dashboard.html';
-            }
-        }
     </script>
 </body>
 </html>
