@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - PlayBindas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Panel Login</h2>
+        <form id="adminLoginForm">
+            <div class="input-group">
+                <label>Admin Email</label>
+                <input type="email" id="adminEmail" required>
+            </div>
+            <div class="input-group">
+                <label>Admin Password</label>
+                <input type="password" id="adminPassword" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDfWOOwjX6nK-kuWnitTbb7_3x2LvmPgA",
+            authDomain: "playbindas.firebaseapp.com",
+            projectId: "playbindas",
+            storageBucket: "playbindas.firebasestorage.app",
+            messagingSenderId: "1084591578297",
+            appId: "1:1084591578297:web:fcdab9361e7a2373250f68",
+            measurementId: "G-RK5636CWLW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Check if user is admin
+                const adminRef = doc(db, "admins", user.uid);
+                const adminDoc = await getDoc(adminRef);
+                
+                if (adminDoc.exists() && adminDoc.data().isAdmin) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    window.location.href = 'admin.html';
+                } else {
+                    document.getElementById('message').textContent = 'Access denied. Admin only.';
+                    document.getElementById('message').className = 'message error';
+                }
+            } catch (error) {
+                document.getElementById('message').textContent = 'Invalid credentials';
+                document.getElementById('message').className = 'message error';
+            }
+        });
+    </script>
+</body>
+</html>
