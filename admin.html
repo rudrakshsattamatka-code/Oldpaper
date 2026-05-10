@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - PlayBindas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .video-container {
+            background: black;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+        .record-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .stop-btn {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .upload-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .status-badge.betting {
+            background: #28a745;
+            color: white;
+        }
+        .status-badge.waiting {
+            background: #ffc107;
+            color: #333;
+        }
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .control-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .control-btn.start {
+            background: #28a745;
+            color: white;
+        }
+        .control-btn.stop {
+            background: #dc3545;
+            color: white;
+        }
+        .animals-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .animal-result-btn {
+            padding: 10px;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .animal-result-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        .requests-list, .users-list, .games-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .request-item, .user-item, .game-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .request-item {
+            border-left: 4px solid #ffc107;
+        }
+        .amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .approve-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-game-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .delete-game-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            display: none;
+        }
+        .message.success {
+            background: #28a745;
+            color: white;
+            display: block;
+        }
+        .message.error {
+            background: #dc3545;
+            color: white;
+            display: block;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="header">
+            <h1>🎮 Admin Panel - PlayBindas</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <div class="number" id="totalUsers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Deposits</h3>
+                <div class="number" id="pendingDeposits">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Bets</h3>
+                <div class="number" id="activeBets">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Withdrawals</h3>
+                <div class="number" id="pendingWithdrawals">0</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="card">
+                <h3>📹 Live Video Recording</h3>
+                <div class="video-container">
+                    <video id="preview" autoplay muted></video>
+                </div>
+                <div>
+                    <button class="record-btn" onclick="startRecording()">🎥 Start Recording</button>
+                    <button class="stop-btn" onclick="stopRecording()">⏹️ Stop Recording</button>
+                    <button class="upload-btn" onclick="uploadRecording()">📤 Upload to Stream</button>
+                </div>
+                <div id="recordingStatus" style="margin-top: 10px;"></div>
+            </div>
+
+            <div class="card">
+                <h3>🎲 Game Control</h3>
+                <div class="game-status">
+                    <strong>Status:</strong>
+                    <span id="gameStatusBadge" class="status-badge betting">Betting Open</span>
+                </div>
+                <div class="control-buttons">
+                    <button class="control-btn start" onclick="startBetting()">Start Betting</button>
+                    <button class="control-btn stop" onclick="stopBetting()">Stop Betting</button>
+                </div>
+                <h4>Declare Result</h4>
+                <div class="animals-list" id="animalResults">
+                    <button class="animal-result-btn" data-animal="Tiger">🐅 Tiger</button>
+                    <button class="animal-result-btn" data-animal="Elephant">🐘 Elephant</button>
+                    <button class="animal-result-btn" data-animal="Cat">🐱 Cat</button>
+                    <button class="animal-result-btn" data-animal="Dog">🐕 Dog</button>
+                    <button class="animal-result-btn" data-animal="Giraffe">🦒 Giraffe</button>
+                    <button class="animal-result-btn" data-animal="Donkey">🫏 Donkey</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>💰 Deposit Requests</h3>
+            <div class="requests-list" id="depositRequests">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h3>🏦 Withdrawal Requests</h3>
+            <div class="requests-list" id="withdrawRequests">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h3>🎮 Game Management</h3>
+            <button class="add-game-btn" onclick="showAddGameForm()">+ Add New Game</button>
+            
+            <div id="addGameForm" style="display:none; margin-bottom:20px; padding:15px; background:#f8f9fa; border-radius:10px;">
+                <h4>Add New Game</h4>
+                <div class="input-group">
+                    <input type="text" id="gameName" placeholder="Game Name">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="gameIcon" placeholder="Game Icon (emoji e.g., 🎯)">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="gameDescription" placeholder="Game Description">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="gameUrl" placeholder="Game Page URL (e.g., game.html)">
+                </div>
+                <button onclick="addGame()" style="background:#28a745; color:white; border:none; padding:10px 20px; border-radius:8px; margin-right:10px;">Save Game</button>
+                <button onclick="hideAddGameForm()" style="background:#dc3545; color:white; border:none; padding:10px 20px; border-radius:8px;">Cancel</button>
+            </div>
+            
+            <div id="gamesList" class="games-list">Loading games...</div>
+        </div>
+
+        <div class="card">
+            <h3>👥 User Management</h3>
+            <div class="users-list" id="usersList">Loading...</div>
+        </div>
+    </div>
+
+    <div id="message" class="message"></div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, getDocs, updateDoc, collection, query, where, onSnapshot, addDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDfWOOwjX6nK-kuWnitTbb7_3x2LvmPgA",
+            authDomain: "playbindas.firebaseapp.com",
+            projectId: "playbindas",
+            storageBucket: "playbindas.firebasestorage.app",
+            messagingSenderId: "1084591578297",
+            appId: "1:1084591578297:web:fcdab9361e7a2373250f68",
+            measurementId: "G-RK5636CWLW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        function showMessage(text, type = 'success') {
+            const msgDiv = document.getElementById('message');
+            msgDiv.textContent = text;
+            msgDiv.className = `message ${type}`;
+            setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // ============ VIDEO RECORDING ============
+        window.startRecording = async function() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                document.getElementById('preview').srcObject = stream;
+                mediaRecorder = new MediaRecorder(stream);
+                recordedChunks = [];
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) recordedChunks.push(event.data);
+                };
+                mediaRecorder.start();
+                document.getElementById('recordingStatus').innerHTML = '<p style="color: green;">🔴 Recording...</p>';
+                showMessage('Recording started!', 'success');
+            } catch (error) {
+                showMessage('Camera error: ' + error.message, 'error');
+            }
+        };
+
+        window.stopRecording = function() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                document.getElementById('recordingStatus').innerHTML = '';
+                showMessage('Recording stopped!', 'success');
+            }
+        };
+
+        window.uploadRecording = async function() {
+            if (recordedChunks.length === 0) {
+                showMessage('No recording to upload!', 'error');
+                return;
+            }
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const storageRef = ref(storage, `live-streams/game-${Date.now()}.webm`);
+            await uploadBytes(storageRef, blob);
+            const url = await getDownloadURL(storageRef);
+            await setDoc(doc(db, "gameSettings", "current"), {
+                streamUrl: url,
+                lastUpdated: new Date().toISOString()
+            }, { merge: true });
+            showMessage('Video uploaded and streaming!', 'success');
+        };
+
+        // ============ GAME CONTROL ============
+        window.startBetting = async function() {
+            await setDoc(doc(db, "gameSettings", "current"), {
+                bettingOpen: true,
+                lastUpdated: new Date().toISOString()
+            }, { merge: true });
+            showMessage('Betting opened!', 'success');
+        };
+
+        window.stopBetting = async function() {
+            await setDoc(doc(db, "gameSettings", "current"), {
+                bettingOpen: false,
+                lastUpdated: new Date().toISOString()
+            }, { merge: true });
+            showMessage('Betting closed!', 'success');
+        };
+
+        window.declareResult = async function(animal) {
+            await window.stopBetting();
+            
+            const betsQuery = query(collection(db, "bets"), where("status", "==", "pending"));
+            const betsSnapshot = await getDocs(betsQuery);
+            let winCount = 0;
+            
+            for (const betDoc of betsSnapshot.docs) {
+                const bet = betDoc.data();
+                const isWin = (bet.animal === animal);
+                const userRef = doc(db, "users", bet.userId);
+                const userSnap = await getDoc(userRef);
+                const currentBalance = userSnap.data().balance;
+                
+                if (isWin) {
+                    const winAmount = bet.amount * 5;
+                    await updateDoc(userRef, { balance: currentBalance + winAmount });
+                    await updateDoc(doc(db, "bets", betDoc.id), {
+                        status: "win",
+                        result: animal,
+                        winAmount: winAmount,
+                        resolvedAt: new Date().toISOString()
+                    });
+                    winCount++;
+                } else {
+                    await updateDoc(doc(db, "bets", betDoc.id), {
+                        status: "lose",
+                        result: animal,
+                        resolvedAt: new Date().toISOString()
+                    });
+                }
+            }
+            
+            await addDoc(collection(db, "gameResults"), {
+                result: animal,
+                timestamp: new Date().toISOString(),
+                totalBets: betsSnapshot.size,
+                winners: winCount
+            });
+            
+            showMessage(`Result: ${animal}! ${winCount} winners paid 5x!`, 'success');
+            
+            setTimeout(() => { window.startBetting(); }, 10000);
+        };
+
+        // ============ DEPOSIT REQUESTS ============
+        function loadDepositRequests() {
+            const requestsQuery = query(collection(db, "depositRequests"), where("status", "==", "pending"));
+            onSnapshot(requestsQuery, (snapshot) => {
+                document.getElementById('pendingDeposits').textContent = snapshot.size;
+                const div = document.getElementById('depositRequests');
+                if (snapshot.empty) {
+                    div.innerHTML = '<p style="text-align:center;color:#999;">No pending requests</p>';
+                } else {
+                    div.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const req = doc.data();
+                        div.innerHTML += `
+                            <div class="request-item">
+                                <div><strong>${req.userName}</strong><br><small>${req.userEmail}</small></div>
+                                <div class="amount">₹${req.amount}</div>
+                                <div>UTR: ${req.utrNumber}</div>
+                                <div class="request-actions">
+                                    <button class="approve-btn" onclick="approveDeposit('${doc.id}', ${req.amount}, '${req.userId}')">Approve</button>
+                                    <button class="reject-btn" onclick="rejectDeposit('${doc.id}')">Reject</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+
+        window.approveDeposit = async function(requestId, amount, userId) {
+            const userRef = doc(db, "users", userId);
+            const userSnap = await getDoc(userRef);
+            await updateDoc(userRef, { balance: (userSnap.data().balance || 0) + amount });
+            await updateDoc(doc(db, "depositRequests", requestId), { status: "approved", approvedAt: new Date().toISOString() });
+            showMessage(`Deposit ₹${amount} approved!`, 'success');
+        };
+
+        window.rejectDeposit = async function(requestId) {
+            await updateDoc(doc(db, "depositRequests", requestId), { status: "rejected", rejectedAt: new Date().toISOString() });
+            showMessage('Deposit rejected!', 'error');
+        };
+
+        // ============ WITHDRAWAL REQUESTS ============
+        function loadWithdrawalRequests() {
+            const requestsQuery = query(collection(db, "withdrawRequests"), where("status", "==", "pending"));
+            onSnapshot(requestsQuery, (snapshot) => {
+                document.getElementById('pendingWithdrawals').textContent = snapshot.size;
+                const div = document.getElementById('withdrawRequests');
+                if (snapshot.empty) {
+                    div.innerHTML = '<p style="text-align:center;color:#999;">No pending withdrawals</p>';
+                } else {
+                    div.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const req = doc.data();
+                        div.innerHTML += `
+                            <div class="request-item">
+                                <div><strong>${req.userName}</strong><br><small>${req.userEmail}</small></div>
+                                <div class="amount">₹${req.amount}</div>
+                                <div>Bank: ${req.bankName}</div>
+                                <div>Account: ${req.accountNumber}</div>
+                                <div>IFSC: ${req.ifscCode}</div>
+                                <div>Holder: ${req.accountHolderName}</div>
+                                <div class="request-actions">
+                                    <button class="approve-btn" onclick="approveWithdraw('${doc.id}', ${req.amount}, '${req.userId}')">Approve</button>
+                                    <button class="reject-btn" onclick="rejectWithdraw('${doc.id}')">Reject</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+
+        window.approveWithdraw = async function(requestId, amount, userId) {
+            const userRef = doc(db, "users", userId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.data().balance >= amount) {
+                await updateDoc(userRef, { balance: (userSnap.data().balance || 0) - amount });
+                await updateDoc(doc(db, "withdrawRequests", requestId), { status: "approved", approvedAt: new Date().toISOString() });
+                showMessage(`Withdrawal ₹${amount} approved! Amount deducted.`, 'success');
+            } else {
+                showMessage('Insufficient balance!', 'error');
+            }
+        };
+
+        window.rejectWithdraw = async function(requestId) {
+            await updateDoc(doc(db, "withdrawRequests", requestId), { status: "rejected", rejectedAt: new Date().toISOString() });
+            showMessage('Withdrawal rejected!', 'error');
+        };
+
+        // ============ GAME MANAGEMENT ============
+        function loadGames() {
+            onSnapshot(collection(db, "games"), (snapshot) => {
+                const gamesDiv = document.getElementById('gamesList');
+                if (snapshot.empty) {
+                    gamesDiv.innerHTML = '<p style="text-align:center;color:#999;">No games added yet</p>';
+                } else {
+                    gamesDiv.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const game = doc.data();
+                        gamesDiv.innerHTML += `
+                            <div class="game-item">
+                                <div>
+                                    <strong>${game.icon || '🎲'} ${game.name}</strong><br>
+                                    <small>${game.description || 'No description'}</small><br>
+                                    <small>URL: ${game.url || 'game.html'}</small>
+                                </div>
+                                <button class="delete-game-btn" onclick="deleteGame('${doc.id}')">Delete</button>
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+
+        window.showAddGameForm = function() {
+            document.getElementById('addGameForm').style.display = 'block';
+        };
+
+        window.hideAddGameForm = function() {
+            document.getElementById('addGameForm').style.display = 'none';
+            document.getElementById('gameName').value = '';
+            document.getElementById('gameIcon').value = '';
+            document.getElementById('gameDescription').value = '';
+            document.getElementById('gameUrl').value = '';
+        };
+
+        window.addGame = async function() {
+            const name = document.getElementById('gameName').value;
+            const icon = document.getElementById('gameIcon').value || '🎲';
+            const description = document.getElementById('gameDescription').value;
+            const url = document.getElementById('gameUrl').value || 'game.html';
+            
+            if (!name) {
+                showMessage('Please enter game name!', 'error');
+                return;
+            }
+            
+            await addDoc(collection(db, "games"), {
+                name: name,
+                icon: icon,
+                description: description,
+                url: url,
+                createdAt: new Date().toISOString()
+            });
+            
+            showMessage(`Game "${name}" added successfully!`, 'success');
+            hideAddGameForm();
+        };
+
+        window.deleteGame = async function(gameId) {
+            if (confirm('Are you sure you want to delete this game?')) {
+                await deleteDoc(doc(db, "games", gameId));
+                showMessage('Game deleted!', 'success');
+            }
+        };
+
+        // ============ USER MANAGEMENT ============
+        function loadUsers() {
+            onSnapshot(collection(db, "users"), (snapshot) => {
+                document.getElementById('totalUsers').textContent = snapshot.size;
+                const div = document.getElementById('usersList');
+                div.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    div.innerHTML += `
+                        <div class="user-item">
+                            <div>
+                                <strong>${user.name}</strong><br>
+                                <small>${user.email}</small><br>
+                                Balance: ₹${user.balance}
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <input type="number" id="amount-${doc.id}" placeholder="Amount" style="width:100px; padding:5px;">
+                                <button onclick="addBalance('${doc.id}')" style="background:#28a745;color:white;border:none;padding:5px 10px;">+ Add</button>
+                                <button onclick="deductBalance('${doc.id}')" style="background:#dc3545;color:white;border:none;padding:5px 10px;">- Deduct</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        window.addBalance = async function(userId) {
+            const amount = parseFloat(document.getElementById(`amount-${userId}`).value);
+            if (isNaN(amount) || amount <= 0) return;
+            const userRef = doc(db, "users", userId);
+            const userSnap = await getDoc(userRef);
+            await updateDoc(userRef, { balance: (userSnap.data().balance || 0) + amount });
+            showMessage(`Added ₹${amount} to user`, 'success');
+        };
+
+        window.deductBalance = async function(userId) {
+            const amount = parseFloat(document.getElementById(`amount-${userId}`).value);
+            if (isNaN(amount) || amount <= 0) return;
+            const userRef = doc(db, "users", userId);
+            const userSnap = await getDoc(userRef);
+            await updateDoc(userRef, { balance: (userSnap.data().balance || 0) - amount });
+            showMessage(`Deducted ₹${amount} from user`, 'success');
+        };
+
+        // ============ GAME STATUS ============
+        function loadGameStatus() {
+            onSnapshot(doc(db, "gameSettings", "current"), (doc) => {
+                if (doc.exists()) {
+                    const data = doc.data();
+                    const badge = document.getElementById('gameStatusBadge');
+                    if (data.bettingOpen) {
+                        badge.textContent = 'Betting Open ✅';
+                        badge.className = 'status-badge betting';
+                    } else {
+                        badge.textContent = 'Betting Closed ⛔';
+                        badge.className = 'status-badge waiting';
+                    }
+                }
+            });
+        }
+
+        function loadActiveBets() {
+            onSnapshot(query(collection(db, "bets"), where("status", "==", "pending")), (snapshot) => {
+                document.getElementById('activeBets').textContent = snapshot.size;
+            });
+        }
+
+        // ============ RESULT BUTTONS ============
+        document.querySelectorAll('.animal-result-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const animal = btn.getAttribute('data-animal');
+                if (confirm(`Declare ${animal} as winner? This will settle all active bets.`)) {
+                    window.declareResult(animal);
+                }
+            });
+        });
+
+        // ============ LOGOUT ============
+        window.logout = async function() {
+            await signOut(auth);
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'admin-login.html';
+        };
+
+        // ============ CHECK AUTH ============
+        if (!localStorage.getItem('adminLoggedIn')) {
+            window.location.href = 'admin-login.html';
+        }
+
+        // ============ INITIALIZE ============
+        loadDepositRequests();
+        loadWithdrawalRequests();
+        loadUsers();
+        loadGameStatus();
+        loadActiveBets();
+        loadGames();
+    </script>
+</body>
+</html>
