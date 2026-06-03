@@ -1,308 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayBindas - Login & Sign Up</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Rudraksh Arthshastra | Sacred Beads from 1 to 11 Mukhi</title>
+  <!-- Google Fonts & simple CSS reset -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fef7e8;
+      color: #2c1e12;
+      scroll-behavior: smooth;
+    }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-            width: 100%;
-            max-width: 450px;
-        }
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
-        }
+    /* Header & Navigation */
+    .navbar {
+      background: #ffffffdd;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      border-bottom: 1px solid #f0e2cf;
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      flex-wrap: wrap;
+    }
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #b45f2b, #6b2e00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo p {
+      font-size: 0.8rem;
+      color: #9b6a3e;
+      font-weight: 500;
+    }
+    .nav-links a {
+      margin-left: 28px;
+      text-decoration: none;
+      color: #4a2a12;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .nav-links a:hover { color: #c2591e; }
+    .hero {
+      text-align: center;
+      padding: 50px 0 30px;
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #3c240c;
+    }
+    .hero span {
+      color: #c2591e;
+      border-bottom: 2px dotted #e2b27c;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      margin-top: 12px;
+      color: #5b3a1c;
+    }
 
-        .tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 600;
-            color: #6c757d;
-            border: none;
-            background: none;
-            font-size: 16px;
-        }
+    /* Price range highlight */
+    .price-badge {
+      background: #f3e5cf;
+      display: inline-block;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      margin: 20px 0 10px;
+      font-size: 1rem;
+      color: #7a4316;
+    }
 
-        .tab.active {
-            color: #667eea;
-            background: white;
-            border-bottom: 2px solid #667eea;
-        }
-
-        .form-container {
-            padding: 40px;
-        }
-
-        .form {
-            display: none;
-        }
-
-        .form.active {
-            display: block;
-        }
-
-        h2 {
-            margin-bottom: 30px;
-            color: #333;
-            text-align: center;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .message {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            display: none;
-        }
-
-        .message.error {
-            background: #fee;
-            color: #c33;
-            display: block;
-        }
-
-        .message.success {
-            background: #efe;
-            color: #3c3;
-            display: block;
-        }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .forgot-password a {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
-        }
-    </style>
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 32px;
+      margin: 40px 0 60px;
+    }
+    .product-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 15px 30px -12px rgba(0,0,0,0.1);
+      transition: transform 0.25s ease, box-shadow 0.3s;
+      cursor: default;
+      border: 1px solid #f3e2ce;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 35px -16px rgba(0,0,0,0.2);
+    }
+    .card-img {
+      background: #faf1e4;
+      text-align: center;
+      padding: 28px 16px 16px;
+    }
+    .card-img i {
+      font-size: 4rem;
+      color: #b86f2c;
+      filter: drop-shadow(2px 6px 8px rgba(0,0,0,0.1));
+    }
+    .mukhi-number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: #fff0e0;
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 60px;
+      margin-bottom: 8px;
+      color: #aa6230;
+    }
+    .product-info {
+      padding: 20px 20px 24px;
+      text-align: center;
+    }
+    .product-info h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .product-info p {
+      font-size: 0.9rem;
+      color: #6f4e2c;
+      margin-bottom: 18px;
+    }
+    .price {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #2e5c2e;
+      letter-spacing: -0.5px;
+    }
+    .price small {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #8a6a44;
+    }
+    .btn-buy {
+      background: #c45c1e;
+      border: none;
+      width: 100%;
+      padding: 12px 0;
+      border-radius: 50px;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: inherit;
+      border: 1px solid #e2a26a;
+    }
+    .btn-buy:hover {
+      background: #9f4712;
+      transform: scale(0.97);
+    }
+    /* payment & cart section */
+    .cart-section {
+      background: #fff6ed;
+      border-radius: 48px;
+      padding: 32px 28px;
+      margin: 30px 0 50px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      border: 1px solid #eedbc8;
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      border-bottom: 2px dashed #e0c8ae;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .cart-header h3 {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    .cart-items {
+      min-height: 100px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      margin: 8px 0;
+      padding: 12px 18px;
+      border-radius: 60px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .cart-item-name {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cart-item-name i {
+      color: #bc6f2c;
+    }
+    .cart-item-price {
+      font-weight: 700;
+    }
+    .remove-btn {
+      background: #f0dbca;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .remove-btn:hover {
+      background: #d4b48c;
+    }
+    .cart-total {
+      text-align: right;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 20px 0 10px;
+      border-top: 2px solid #e8cfb2;
+      padding-top: 18px;
+    }
+    .payment-options {
+      display: flex;
+      gap: 20px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin: 20px 0 10px;
+    }
+    .pay-btn {
+      background: #2b5e2b;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pay-btn:hover {
+      background: #1b421b;
+      transform: translateY(-2px);
+    }
+    .empty-cart-msg {
+      text-align: center;
+      padding: 32px;
+      color: #ad8a60;
+      font-style: italic;
+    }
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      border-top: 1px solid #ebdbc9;
+      margin-top: 40px;
+      color: #82633e;
+    }
+    @media (max-width: 720px) {
+      .nav-flex { flex-direction: column; gap: 12px; }
+      .nav-links a { margin: 0 12px; }
+      .hero h2 { font-size: 1.8rem; }
+    }
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #2d6a2d;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 500;
+      z-index: 200;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      animation: fadeInOut 2.5s ease forwards;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(20px);}
+      15% { opacity: 1; transform: translateY(0);}
+      85% { opacity: 1; transform: translateY(0);}
+      100% { opacity: 0; transform: translateY(20px); visibility: hidden;}
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('login')">Login</button>
-            <button class="tab" onclick="switchTab('signup')">Sign Up</button>
-        </div>
 
-        <div class="form-container">
-            <div id="loginForm" class="form active">
-                <h2>Welcome Back!</h2>
-                <form id="login">
-                    <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" id="loginEmail" required placeholder="Enter your email">
-                    </div>
-                    <div class="input-group">
-                        <label>Password</label>
-                        <input type="password" id="loginPassword" required placeholder="Enter your password">
-                    </div>
-                    <button type="submit">Login</button>
-                </form>
-                <div class="forgot-password">
-                    <a href="#" onclick="resetPassword()">Forgot Password?</a>
-                </div>
-            </div>
-
-            <div id="signupForm" class="form">
-                <h2>Create Account</h2>
-                <form id="signup">
-                    <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" id="signupName" required placeholder="Enter your full name">
-                    </div>
-                    <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" id="signupEmail" required placeholder="Enter your email">
-                    </div>
-                    <div class="input-group">
-                        <label>Password</label>
-                        <input type="password" id="signupPassword" required placeholder="Create a password (min 6 characters)">
-                    </div>
-                    <div class="input-group">
-                        <label>Confirm Password</label>
-                        <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
-                    </div>
-                    <button type="submit">Sign Up</button>
-                </form>
-            </div>
-
-            <div id="message" class="message"></div>
-        </div>
+<div class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <h1><i class="fas fa-leaf"></i> RUDRAKSH ARTHSHATRA</h1>
+      <p>Sacred beads · 1 to 11 Mukhi | Since ages</p>
     </div>
+    <div class="nav-links">
+      <a href="#products"><i class="fas fa-gem"></i> Rudraksh</a>
+      <a href="#cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+      <a href="#payment"><i class="fas fa-rupee-sign"></i> Payment</a>
+    </div>
+  </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<main class="container">
+  <div class="hero">
+    <h2>Awaken the cosmic energy with <span>Rudraksh</span></h2>
+    <p>Genuine, traditionally sourced beads — 1 Mukhi to 11 Mukhi</p>
+    <div class="price-badge">
+      <i class="fas fa-tag"></i> Price range: ₹1,100 to ₹11,000 only
+    </div>
+  </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBDfWOOwjX6nK-kuWnitTbb7_3x2LvmPgA",
-            authDomain: "playbindas.firebaseapp.com",
-            projectId: "playbindas",
-            storageBucket: "playbindas.firebasestorage.app",
-            messagingSenderId: "1084591578297",
-            appId: "1:1084591578297:web:fcdab9361e7a2373250f68",
-            measurementId: "G-RK5636CWLW"
-        };
+  <!-- Products Section (11 mukhi) -->
+  <div id="products">
+    <h2 style="font-size: 1.9rem; margin-bottom: 8px;"><i class="fas fa-praying-hands"></i> Choose your sacred bead</h2>
+    <p style="margin-bottom: 20px;">Each Rudraksha carries unique spiritual benefits | Prices inclusive of all taxes</p>
+  </div>
+  <div class="products-grid" id="rudrakshGrid"></div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+  <!-- Cart & Payment Section -->
+  <div id="cart"></div>
+  <div class="cart-section" id="cartSection">
+    <div class="cart-header">
+      <h3><i class="fas fa-shopping-bag"></i> Your selection</h3>
+      <span style="font-size: 0.9rem;">Complete your sacred purchase</span>
+    </div>
+    <div id="cartItemsList" class="cart-items">
+      <!-- dynamic cart items -->
+      <div class="empty-cart-msg">✨ No beads added yet. Choose any Rudraksh above.</div>
+    </div>
+    <div id="cartTotalDisplay" class="cart-total">Total: ₹0</div>
+    <div id="payment" class="payment-options">
+      <button id="rzpPayBtn" class="pay-btn"><i class="fab fa-google-pay"></i> Google Pay / UPI</button>
+      <button id="cardPayBtn" class="pay-btn"><i class="fas fa-credit-card"></i> Credit / Debit Card</button>
+      <button id="codPayBtn" class="pay-btn"><i class="fas fa-truck"></i> Cash on Delivery</button>
+    </div>
+    <p style="font-size: 0.8rem; margin-top: 18px; text-align: right;"><i class="fas fa-lock"></i> Secure checkout · 100% authentic beads</p>
+  </div>
+</main>
 
-        function showMessage(text, type = 'error') {
-            const msgDiv = document.getElementById('message');
-            msgDiv.textContent = text;
-            msgDiv.className = `message ${type}`;
-            setTimeout(() => {
-                msgDiv.style.display = 'none';
-            }, 5000);
-        }
+<footer>
+  <p>© 2025 RUDRAKSH ARTHSHATRA — Heritage & Spirituality | Crafted with devotion</p>
+  <p style="margin-top: 8px;"><i class="fas fa-om"></i> 1 to 11 Mukhi · Prices ₹1,100 – ₹11,000 · Worldwide Shipping</p>
+</footer>
 
-        document.getElementById('login').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                showMessage('Login successful! Redirecting...', 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-            } catch (error) {
-                showMessage('Login failed: ' + error.message);
-            }
-        });
-        
-        document.getElementById('signup').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                showMessage('Passwords do not match!');
-                return;
-            }
-            if (password.length < 6) {
-                showMessage('Password must be at least 6 characters!');
-                return;
-            }
-            
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                await updateProfile(userCredential.user, { displayName: name });
-                
-                await setDoc(doc(db, "users", userCredential.user.uid), {
-                    uid: userCredential.user.uid,
-                    name: name,
-                    email: email,
-                    balance: 1000,
-                    createdAt: new Date().toISOString()
-                });
-                
-                showMessage('Account created successfully! Redirecting...', 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
-            } catch (error) {
-                showMessage('Signup failed: ' + error.message);
-            }
-        });
-        
-        window.switchTab = function(tab) {
-            document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const loginForm = document.getElementById('loginForm');
-            const signupForm = document.getElementById('signupForm');
-            
-            if (tab === 'login') {
-                loginForm.classList.add('active');
-                signupForm.classList.remove('active');
+<script>
+  // Product dataset: 1 mukhi to 11 mukhi, price based on range and significance
+  // Following logical pricing (rare mukhi higher) but within 1100 to 11000 range.
+  const rudrakshProducts = [
+    { id: 1, mukhi: 1, name: "1 Mukhi (Swayambhu)", price: 11000, icon: "fas fa-circle", desc: "Ultra rare, represents supreme consciousness" },
+    { id: 2, mukhi: 2, name: "2 Mukhi (Ardhanarishvara)", price: 3800, icon: "fas fa-star-of-life", desc: "Harmony, unity" },
+    { id: 3, mukhi: 3, name: "3 Mukhi (Agni Rudraksha)", price: 2500, icon: "fas fa-fire", desc: "Purifies karma" },
+    { id: 4, mukhi: 4, name: "4 Mukhi (Brahma Rudraksha)", price: 2200, icon: "fas fa-book-open", desc: "Wisdom, intellect" },
+    { id: 5, mukhi: 5, name: "5 Mukhi (Kalagni Rudraksha)", price: 1800, icon: "fas fa-pray", desc: "Most common, bestows peace" },
+    { id: 6, mukhi: 6, name: "6 Mukhi (Kartikeya)", price: 2600, icon: "fas fa-feather-alt", desc: "Confidence, leadership" },
+    { id: 7, mukhi: 7, name: "7 Mukhi (Mahalakshmi)", price: 3400, icon: "fas fa-lotus", desc: "Abundance & wealth" },
+    { id: 8, mukhi: 8, name: "8 Mukhi (Ganesha)", price: 4200, icon: "fas fa-elephant", desc: "Removes obstacles" },
+    { id: 9, mukhi: 9, name: "9 Mukhi (Durga)", price: 5200, icon: "fas fa-shield-alt", desc: "Shakti, protection" },
+    { id: 10, mukhi: 10, name: "10 Mukhi (Vishnu)", price: 6900, icon: "fas fa-crown", desc: "Vishnu's grace, dharma" },
+    { id: 11, mukhi: 11, name: "11 Mukhi (Hanuman)", price: 8800, icon: "fas fa-mountain", desc: "Strength & victory" }
+  ];
+
+  // shopping cart state
+  let cart = []; // each item { id, mukhi, name, price, quantity:1 }
+
+  // Helper: load from localStorage (optional persistence)
+  function loadCart() {
+    const saved = localStorage.getItem("rudrakshCart");
+    if (saved) {
+      try {
+        cart = JSON.parse(saved);
+      } catch(e) { cart = []; }
+    } else {
+      cart = [];
+    }
+    renderCartUI();
+  }
+  function saveCart() {
+    localStorage.setItem("rudrakshCart", JSON.stringify(cart));
+  }
+
+  // Add to cart
+  function addToCart(product) {
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ ...product, quantity: 1 });
+    }
+    saveCart();
+    renderCartUI();
+    showToast(`${product.name} added to cart · ₹${product.price}`);
+  }
+
+  function removeCartItem(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    renderCartUI();
+    showToast("Item removed from cart");
+  }
+
+  function updateQuantity(id, delta) {
+    const idx = cart.findIndex(i => i.id === id);
+    if (idx !== -1) {
+      const newQty = cart[idx].quantity + delta;
+      if (newQty <= 0) {
+        cart.splice(idx,1);
+      } else {
+        cart[idx].quantity = newQty;
+      }
+      saveCart();
+      renderCartUI();
+    }
+  }
+
+  // render product grid
+  function renderProducts() {
+    const grid = document.getElementById("rudrakshGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    rudrakshProducts.forEach(prod => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      // format price in INR style
+      const priceINR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(prod.price);
+      card.innerHTML = `
+        <div class="card-img">
+          <div class="mukhi-number">${prod.mukhi}M</div>
+          <i class="${prod.icon}" style="font-size: 3rem;"></i>
+        </div>
+        <div class="product-info">
+          <h3>${prod.name}</h3>
+          <p>${prod.desc}</p>
+          <div class="price">${priceINR}<small>  inc. tax</small></div>
+          <button class="btn-buy" data-id="${prod.id}"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+    // attach event listeners after render
+    document.querySelectorAll('.btn-buy').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        const product = rudrakshProducts.find(p => p.id === id);
+        if (product) addToCart(product);
+      });
+    });
+  }
+
+  // show temporary notification
+  function showToast(message) {
+    let existingToast = document.querySelector('.toast-msg');
+    if(existingToast) existingToast.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    document.body.appendChild(toast);
+    setTimeout(() => { if(toast) toast.remove(); }, 2800);
+  }
+
+  // Render cart UI with full controls
+  function renderCartUI() {
+    const container = document.getElementById("cartItemsList");
+    const totalContainer = document.getElementById("cartTotalDisplay");
+    if (!container) return;
+    if (cart.length === 0) {
+      container.innerHTML = `<div class="empty-cart-msg"><i class="fas fa-seedling"></i> No beads added yet. Choose any Rudraksh above.</div>`;
+      if(totalContainer) totalContainer.innerText = "Total: ₹0";
+      return;
+    }
+    let cartHtml = "";
+    let total = 0;
+    cart.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      const itemPriceFormatted = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(item.price);
+      cartHtml += `
+        <div class="cart-item">
+          <div class="cart-item-name">
+            <i class="fas fa-gem"></i> <strong>${item.name}</strong> 
+            <span style="background:#f0e3d4; padding:2px 12px; border-radius:30px;">${item.mukhi} Mukhi</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <button class="remove-btn" data-action="decr" data-id="${item.id}"><i class="fas fa-minus"></i></button>
+            <span style="font-weight: 600; min-width: 35px; text-align:center;">${item.quantity}</span>
+            <button class="remove-btn" data-action="incr" data-id="${item.id}"><i class="fas fa-plus"></i></button>
+            <span class="cart-item-price">${itemPriceFormatted} x ${item.quantity} = ₹${itemTotal.toLocaleString('en-IN')}</span>
+            <button class="remove-btn" data-action="remove" data-id="${item.id}"><i class="fas fa-trash-alt"></i> Remove</button>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = cartHtml;
+    totalContainer.innerHTML = `Total: ₹${total.toLocaleString('en-IN')}`;
+
+    // attach dynamic cart events
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+      const action = btn.getAttribute('data-action');
+      const id = parseInt(btn.getAttribute('data-id'));
+      btn.addEventListener('click', (e) => {
+        if (action === 'remove') {
+          removeCartItem(id);
+        } else if (action === 'incr') {
+          const item = cart.find(i => i.id === id);
+          if (item) {
+            item.quantity += 1;
+            saveCart();
+            renderCartUI();
+            showToast(`Increased quantity of ${item.name}`);
+          }
+        } else if (action === 'decr') {
+          const itemIdx = cart.findIndex(i => i.id === id);
+          if (itemIdx !== -1) {
+            if (cart[itemIdx].quantity > 1) {
+              cart[itemIdx].quantity -= 1;
+              saveCart();
+              renderCartUI();
+              showToast(`Decreased quantity`);
             } else {
-                loginForm.classList.remove('active');
-                signupForm.classList.add('active');
+              removeCartItem(id);
             }
-        };
-        
-        window.resetPassword = async function() {
-            const email = prompt('Enter your email address:');
-            if (email) {
-                try {
-                    await sendPasswordResetEmail(auth, email);
-                    showMessage('Password reset email sent!', 'success');
-                } catch (error) {
-                    showMessage('Failed to send reset email.');
-                }
-            }
-        };
-    </script>
+          }
+        }
+      });
+    });
+  }
+
+  // Payment simulation (professional demo with interactive alert)
+  function processPayment(method) {
+    if (cart.length === 0) {
+      showToast("❌ Your cart is empty. Please add Rudraksh beads first.");
+      return;
+    }
+    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const formattedTotal = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalAmount);
+    // Payment success simulation
+    let paymentMessage = "";
+    if (method === 'UPI') {
+      paymentMessage = `✅ Google Pay / UPI payment initiated! Total ${formattedTotal}. Redirecting to secure gateway... (Demo)`;
+    } else if (method === 'CARD') {
+      paymentMessage = `💳 Card payment processed for ${formattedTotal}. A verification OTP sent (demo environment).`;
+    } else {
+      paymentMessage = `🚚 Cash on Delivery selected! Your order for ₹${totalAmount.toLocaleString('en-IN')} will be confirmed. Our team will contact you.`;
+    }
+    // success alert with professional order summary
+    const orderSummary = cart.map(i => `${i.name} (x${i.quantity}) - ₹${(i.price*i.quantity).toLocaleString('en-IN')}`).join('\n');
+    alert(`✨ ORDER SUMMARY ✨\n${orderSummary}\n\nTotal: ${formattedTotal}\n\n${paymentMessage}\n\nThank you for choosing RUDRAKSH ARTHSHATRA. You will receive confirmation via email.`);
+    // optional: clear cart for COD or after payment (optional but keeping demo). For realistic ecomm, we might reset on success? we'll give option but not forced.
+    // Uncomment to reset cart after payment - but user might want to keep? professional decision: keep cart as is but show success.
+    // for smooth UX, we could clear after purchase? we will leave cart untouched to allow multiple orders? better ask? but using typical store -> after order we reset cart. 
+    // However many stores keep items, but here we can give reset after payment to avoid double order.
+    if (method !== 'DEMO_SKIP') {
+      if (confirm("Do you want to clear your cart after placing order? Click OK to start fresh.")) {
+        cart = [];
+        saveCart();
+        renderCartUI();
+        showToast("Cart cleared! Thank you for your sacred purchase.");
+      } else {
+        showToast("Order placed! You can continue shopping.");
+      }
+    }
+  }
+
+  // payment buttons event listeners
+  function bindPaymentButtons() {
+    const upiBtn = document.getElementById("rzpPayBtn");
+    const cardBtn = document.getElementById("cardPayBtn");
+    const codBtn = document.getElementById("codPayBtn");
+    if (upiBtn) upiBtn.addEventListener("click", () => processPayment("UPI"));
+    if (cardBtn) cardBtn.addEventListener("click", () => processPayment("CARD"));
+    if (codBtn) codBtn.addEventListener("click", () => processPayment("COD"));
+  }
+
+  // Scroll to cart when cart header clicked? not needed but nice
+  document.querySelectorAll('.nav-links a[href="#cart"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById("cartSection").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+  document.querySelectorAll('.nav-links a[href="#products"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+  document.querySelectorAll('.nav-links a[href="#payment"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById("cartSection").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // initialise
+  renderProducts();
+  loadCart();
+  bindPaymentButtons();
+</script>
 </body>
 </html>
