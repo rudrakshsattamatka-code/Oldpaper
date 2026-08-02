@@ -15,6 +15,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh; /* Ensures full height */
         }
 
         /* Live Clock */
@@ -52,7 +53,7 @@
             transform: scale(1.02); 
         }
 
-        /* Royal Animated Text - FIXED FOR CONTRAST */
+        /* Royal Animated Text */
         .main-headline {
             font-size: 30px; 
             font-weight: 800;
@@ -68,7 +69,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             
-            /* Dark outline & strong shadow to make it pop on light background */
+            /* Dark outline & strong shadow */
             -webkit-text-stroke: 1px #704214; 
             filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.3));
             animation: goldShimmer 3s linear infinite;
@@ -92,20 +93,20 @@
             padding-bottom: 10px; 
         }
 
-        /* Watermarks - PROFESSIONALLY SET */
+        /* Watermarks */
         .watermark {
             position: absolute;
-            font-size: 26px; /* Slightly smaller */
+            font-size: 26px; 
             font-weight: 800;
-            color: rgba(0, 0, 0, 0.05); /* Lighter opacity so it doesn't clash */
+            color: rgba(0, 0, 0, 0.05); 
             z-index: 10; 
             pointer-events: none;
             white-space: nowrap;
-            letter-spacing: 4px; /* Spaced out numbers */
+            letter-spacing: 4px; 
         }
         .watermark-top {
             top: 35%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-25deg); /* Softer angle */
+            transform: translate(-50%, -50%) rotate(-25deg); 
         }
         .watermark-bottom {
             top: 75%; left: 50%;
@@ -215,10 +216,22 @@
         .box.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
         .box.red-text { background: #fff3e6; color: #d32f2f; border: 1px solid #ffe0c2; }
 
-        /* Footer */
+        /* Footer Info */
         .footer-info { text-align: center; margin-top: 15px; margin-bottom: 5px;  }
         .footer-info p { margin: 0; font-size: 13px; font-weight: 600; color: #555; }
         .footer-info h2 { margin: 2px 0 0 0; font-size: 22px; color: #1976d2; font-weight: 800; }
+
+        /* 🆕 Bottom Blank Space & Founded Text 🆕 */
+        .bottom-founded {
+            margin-top: 50vh; /* 50vh = Half of the screen height */
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #888; /* Professional light gray color */
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
         /* Settings Modal */
         .modal-overlay {
@@ -291,6 +304,11 @@
     <div class="footer-info">
         <p>Call For Demo</p>
         <h2 id="val-phone">Loading...</h2>
+    </div>
+
+    <!-- Bottom Founded Text with Half Page Blank Space -->
+    <div class="bottom-founded">
+        Founded in 2021
     </div>
 
     <!-- Settings Modal -->
