@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Headline Ank Khazana</title>
+    <title>Ank Khazana - Main Bazar</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
@@ -22,12 +22,25 @@
             font-size: 20px;
             font-weight: 700;
             color: #d32f2f;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: #fff;
             padding: 8px 20px;
             border-radius: 30px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             text-align: center;
+        }
+
+        /* Main Headline */
+        .main-headline {
+            font-size: 28px;
+            font-weight: 800;
+            color: #111;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         /* Main Card */
@@ -39,19 +52,19 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.08);
             position: relative;
             overflow: hidden;
-            padding-bottom: 15px; /* Reduced height */
+            padding-bottom: 15px;
         }
 
-        /* Watermark */
+        /* Watermark - Now set to show ON TOP of content */
         .watermark {
             position: absolute;
-            top: 55%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-35deg);
             font-size: 45px;
             font-weight: 800;
-            color: rgba(0, 0, 0, 0.15); /* Black watermark with opacity */
-            z-index: 0;
+            color: rgba(0, 0, 0, 0.15); /* Transparent Black so it's visible but readable */
+            z-index: 10; /* High z-index to stay above boxes */
             pointer-events: none;
             white-space: nowrap;
         }
@@ -59,7 +72,7 @@
         /* Header section */
         .header {
             background: linear-gradient(90deg, #ff9429 30%, #e65c00 100%);
-            padding: 15px; /* Compact padding */
+            padding: 15px;
             display: flex;
             align-items: center;
             border-radius: 12px;
@@ -89,7 +102,7 @@
         .content-area {
             padding: 0 15px;
             position: relative;
-            z-index: 1; /* Keep content above watermark */
+            z-index: 1; 
         }
 
         /* Date & Live Badge */
@@ -129,7 +142,7 @@
             50% { opacity: 0.5; }
         }
 
-        /* Sections (OTC, PANEL, JODI) */
+        /* Sections */
         .section {
             margin-top: 15px;
         }
@@ -281,14 +294,18 @@
     <!-- Live Clock -->
     <div id="live-clock">00:00:00 AM</div>
 
+    <!-- Main Headline (Above Card) -->
+    <h1 id="val-headline" class="main-headline">ANK KHAZANA</h1>
+
     <!-- Main Card -->
     <div class="card">
-        <!-- Watermark Number -->
+        <!-- Watermark Number (Now on TOP of content) -->
         <div id="val-watermark" class="watermark">987 654 3210</div>
 
+        <!-- Header -->
         <div class="header">
             <div class="header-icon"></div>
-            <h1 class="header-title" id="val-title">HEADLINE ANK KHAZANA</h1>
+            <h2 class="header-title" id="val-title">MAIN BAZAR</h2>
         </div>
 
         <div class="content-area">
@@ -338,14 +355,18 @@
     <!-- Settings Modal -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal">
-            <h3>Edit Card Details</h3>
+            <h3>Edit Details</h3>
             
             <div class="form-group">
-                <label>Card Title</label>
+                <label>Top Headline</label>
+                <input type="text" id="inp-headline">
+            </div>
+            <div class="form-group">
+                <label>Market Name (Card Title)</label>
                 <input type="text" id="inp-title">
             </div>
             <div class="form-group">
-                <label>Watermark Background (Leave blank to remove)</label>
+                <label>Watermark Background</label>
                 <input type="text" id="inp-watermark">
             </div>
             <div class="form-group">
@@ -359,12 +380,12 @@
             <div class="form-group">
                 <label>PANEL</label>
                 <input type="text" id="inp-panels">
-                <span class="form-note">Put a comma (,) between numbers to add multiple boxes (e.g. 348, 122, 288)</span>
+                <span class="form-note">Put comma (,) between numbers (e.g. 348, 122, 288)</span>
             </div>
             <div class="form-group">
                 <label>JODI</label>
                 <input type="text" id="inp-jodis">
-                <span class="form-note">Put a comma (,) between numbers to add multiple boxes (e.g. 53, 58, 85)</span>
+                <span class="form-note">Put comma (,) between numbers (e.g. 53, 58, 85)</span>
             </div>
             <div class="form-group">
                 <label>Demo Mobile Number</label>
@@ -387,7 +408,7 @@
         // Function to render dynamic boxes
         function renderBoxes(containerId, numbersArray, colorClass) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ''; // clear previous
+            container.innerHTML = ''; 
             
             numbersArray.forEach(num => {
                 let val = num.trim();
@@ -425,7 +446,7 @@
 
         // Settings Modal Logic
         const modal = document.getElementById('settings-modal');
-        const textFields = ['title', 'datetime', 'otc', 'phone', 'watermark'];
+        const textFields = ['headline', 'title', 'datetime', 'otc', 'phone', 'watermark'];
 
         function openSettings() {
             // Load Normal Texts
@@ -449,7 +470,7 @@
                 let inputVal = document.getElementById(`inp-${field}`).value;
                 document.getElementById(`val-${field}`).innerText = inputVal;
                 
-                // Hide watermark entirely if empty
+                // Show/Hide watermark entirely if empty
                 if(field === 'watermark') {
                     document.getElementById('val-watermark').style.display = inputVal.trim() === '' ? 'none' : 'block';
                 }
