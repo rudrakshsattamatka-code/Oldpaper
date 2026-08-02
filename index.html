@@ -19,18 +19,19 @@
 
         /* Live Clock */
         #live-clock {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: #d32f2f;
             margin-bottom: 10px;
-            background: #fff;
+            background: #e3f2fd; /* Light Blue Background */
             padding: 8px 20px;
             border-radius: 30px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             text-align: center;
+            border: 1px solid #bbdefb;
         }
 
-        /* Main Headline */
+        /* Main Headline (Hidden Settings Button) */
         .main-headline {
             font-size: 28px;
             font-weight: 800;
@@ -41,6 +42,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            cursor: pointer; /* Makes it feel clickable like a button */
         }
 
         /* Main Card */
@@ -152,7 +154,8 @@
         .otc-box {
             background: #fff3e6; text-align: center; padding: 12px;
             border-radius: 10px; font-size: 28px; font-weight: 800;
-            color: #cc4a00; border: 1px solid #ffe0c2;
+            color: #000000; /* BLACK COLOR FOR OTC */
+            border: 1px solid #ffe0c2;
         }
         .grid-dynamic {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
@@ -162,20 +165,14 @@
             font-size: 16px; font-weight: 800;
         }
         .box.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
-        .box.orange { background: #fff3e6; color: #cc4a00; border: 1px solid #ffe0c2; }
+        .box.red-text { background: #fff3e6; color: #d32f2f; /* RED COLOR FOR JODI */ border: 1px solid #ffe0c2; }
 
         /* Footer */
         .footer-info { text-align: center; margin-top: 20px; margin-bottom: 10px; }
         .footer-info p { margin: 0; font-size: 14px; font-weight: 600; color: #555; }
-        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #d32f2f; font-weight: 800; }
+        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #1976d2; /* BLUE COLOR FOR NUMBER */ font-weight: 800; }
 
-        /* Settings Button & Modal */
-        .settings-btn {
-            background: #333; color: white; border: none; padding: 10px 20px;
-            font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer;
-            margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: 0.2s;
-        }
-        .settings-btn:hover { background: #000; }
+        /* Settings Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); display: none; justify-content: center;
@@ -203,10 +200,10 @@
 <body>
 
     <!-- Live Clock -->
-    <div id="live-clock">00:00:00 AM</div>
+    <div id="live-clock">Live Time : 00:00:00 AM</div>
 
-    <!-- Main Headline -->
-    <h1 id="val-headline" class="main-headline">ANK KHAZANA</h1>
+    <!-- Main Headline (Clickable to open Settings) -->
+    <h1 id="val-headline" class="main-headline" onclick="openSettings()" title="Click to open settings">ANK KHAZANA</h1>
 
     <!-- Main Card -->
     <div class="card">
@@ -246,21 +243,27 @@
         <h2 id="val-phone">Loading...</h2>
     </div>
 
-    <!-- Settings Button -->
-    <button class="settings-btn" onclick="openSettings()">⚙️ Settings</button>
-
     <!-- Settings Modal -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal">
             <h3>Edit Live Details</h3>
-            <div class="form-group"><label>Top Headline</label><input type="text" id="inp-headline"></div>
+            
+            <div class="form-group">
+                <label>Top Headline</label>
+                <input type="text" id="inp-headline">
+            </div>
+            
+            <div class="form-group">
+                <label>Live Timer (Leave blank for auto clock)</label>
+                <input type="text" id="inp-livetime" placeholder="e.g. 10:30 AM">
+            </div>
+
             <div class="form-group"><label>Logo Image URL</label><input type="text" id="inp-logo"></div>
             <div class="form-group"><label>Market Name</label><input type="text" id="inp-title"></div>
             <div class="form-group"><label>Watermark Number</label><input type="text" id="inp-watermark"></div>
             <div class="form-group"><label>Date & Time</label><input type="text" id="inp-datetime"></div>
             <div class="form-group"><label>OTC</label><input type="text" id="inp-otc"></div>
             
-            <!-- Changed instructions to "Space separated" -->
             <div class="form-group"><label>PANEL</label><input type="text" id="inp-panels">
             <span class="form-note">Put space between numbers (e.g. 348 122 288)</span></div>
             
@@ -268,6 +271,7 @@
             <span class="form-note">Put space between numbers (e.g. 53 58 85)</span></div>
             
             <div class="form-group"><label>Mobile Number</label><input type="text" id="inp-phone"></div>
+            
             <div id="status-msg">Saving...</div>
             <div class="modal-btns">
                 <button class="btn btn-cancel" onclick="closeSettings()">Cancel</button>
@@ -281,7 +285,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Your Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyDVxg4EZHm4D2zMrz_ndLzcqx3wkhdPdVc",
             authDomain: "rudraksh-d74c3.firebaseapp.com",
@@ -293,14 +296,13 @@
             measurementId: "G-LW5DNWYCKL"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const cardRef = ref(db, 'marketCard');
 
-        // Initial default data updated to use spaces instead of commas
         let currentData = {
             headline: 'ANK KHAZANA',
+            livetime: '',
             logo: 'https://i.imgur.com/XvToOoW.png',
             title: 'MAIN BAZAR',
             watermark: '987 654 3210',
@@ -311,7 +313,6 @@
             phone: '+91 9876543210'
         };
 
-        // Real-time Data Listener
         onValue(cardRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -322,14 +323,11 @@
             }
         });
 
-        // Smart parse function: handles spaces, multiple spaces, and even accidental commas
         function parseNumbers(str) {
             if(!str) return [];
-            // Replace commas with spaces, then split by 1 or more spaces
             return str.replace(/,/g, ' ').trim().split(/\s+/);
         }
 
-        // Update UI Function
         function updateUI(data) {
             document.getElementById('val-headline').innerText = data.headline || '';
             document.getElementById('val-logo').src = data.logo || '';
@@ -338,7 +336,6 @@
             document.getElementById('val-otc').innerText = data.otc || '';
             document.getElementById('val-phone').innerText = data.phone || '';
 
-            // Update Watermark
             const wmTxt = data.watermark || '';
             document.getElementById('val-watermark1').innerText = wmTxt;
             document.getElementById('val-watermark2').innerText = wmTxt;
@@ -346,12 +343,10 @@
             document.getElementById('val-watermark1').style.display = disp;
             document.getElementById('val-watermark2').style.display = disp;
 
-            // Render Dynamic Boxes (Now using the smart parse function)
             renderBoxes('container-panels', parseNumbers(data.panels), 'green');
-            renderBoxes('container-jodis', parseNumbers(data.jodis), 'orange');
+            renderBoxes('container-jodis', parseNumbers(data.jodis), 'red-text');
         }
 
-        // Render Boxes
         function renderBoxes(containerId, array, colorClass) {
             const container = document.getElementById(containerId);
             container.innerHTML = ''; 
@@ -363,6 +358,7 @@
 
         window.openSettings = function() {
             document.getElementById('inp-headline').value = currentData.headline || '';
+            document.getElementById('inp-livetime').value = currentData.livetime || '';
             document.getElementById('inp-logo').value = currentData.logo || '';
             document.getElementById('inp-title').value = currentData.title || '';
             document.getElementById('inp-watermark').value = currentData.watermark || '';
@@ -386,6 +382,7 @@
 
             const newData = {
                 headline: document.getElementById('inp-headline').value,
+                livetime: document.getElementById('inp-livetime').value,
                 logo: document.getElementById('inp-logo').value,
                 title: document.getElementById('inp-title').value,
                 watermark: document.getElementById('inp-watermark').value,
@@ -406,14 +403,20 @@
             });
         };
 
-        // Live Clock logic
+        // Live Clock logic & Override check
         setInterval(() => {
-            const now = new Date();
-            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-            let ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12; h = h ? h : 12;
-            m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
-            document.getElementById('live-clock').innerText = `${h}:${m}:${s} ${ampm}`;
+            // Check if user set a custom live time
+            if (currentData.livetime && currentData.livetime.trim() !== '') {
+                document.getElementById('live-clock').innerText = `Live Time : ${currentData.livetime}`;
+            } else {
+                // Otherwise run real-time clock
+                const now = new Date();
+                let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+                let ampm = h >= 12 ? 'PM' : 'AM';
+                h = h % 12; h = h ? h : 12;
+                m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
+                document.getElementById('live-clock').innerText = `Live Time : ${h}:${m}:${s} ${ampm}`;
+            }
         }, 1000);
     </script>
 </body>
