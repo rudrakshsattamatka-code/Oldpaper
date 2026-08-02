@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ank Khazana - Main Bazar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 15px; /* Reduced body padding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Live Clock */
+        #live-clock {
+            font-size: 16px; /* Slightly smaller */
+            font-weight: 700;
+            color: #0056b3;
+            margin-bottom: 8px; /* Reduced margin */
+            background: #e3f2fd;
+            padding: 6px 16px; /* Reduced padding */
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid #bbdefb;
+        }
+
+        /* 👑 Royal Animated Headline 👑 */
+        .main-headline {
+            font-size: 28px; /* Slightly adjusted to fit compact look */
+            font-weight: 800;
+            margin-top: 5px;
+            margin-bottom: 12px; /* Reduced margin */
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer; 
+            
+            /* Golden Shimmer Gradient */
+            background: linear-gradient(90deg, #B8860B 0%, #FFD700 25%, #FFF8DC 50%, #FFD700 75%, #B8860B 100%);
+            background-size: 200% auto;
+            color: #FFD700;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* 3D Drop Shadow */
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.25));
+            animation: goldShimmer 3s linear infinite;
+        }
+
+        @keyframes goldShimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Main Card */
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px; /* Slightly sharper corners */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 10px; /* Reduced padding */
+        }
+
+        /* Watermarks */
+        .watermark {
+            position: absolute;
+            font-size: 34px; /* Reduced watermark size */
+            font-weight: 800;
+            color: rgba(0, 0, 0, 0.12);
+            z-index: 10; 
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .watermark-top {
+            top: 30%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+        }
+        .watermark-bottom {
+            top: 75%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(90deg, #ff9429 30%, #e65c00 100%);
+            padding: 10px; /* Reduced from 15px */
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            margin: 8px; /* Reduced from 10px */
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        .header-icon {
+            width: 35px; /* Reduced from 45px */
+            height: 35px;
+            border-radius: 8px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            object-fit: cover;
+            background: #fff; 
+            padding: 2px; 
+        }
+        .header-title {
+            font-size: 20px; /* Reduced from 22px */
+            font-weight: 800;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Content Sections */
+        .content-area {
+            padding: 0 12px;
+            position: relative;
+            z-index: 1; 
+        }
+        .date-row {
+            background: #fff3e6;
+            padding: 8px 12px; /* Reduced padding */
+            border-radius: 8px;
+            margin-top: 8px; /* Reduced margin */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 13px; /* Reduced from 14px */
+            color: #7a3e14;
+            border: 1px solid #ffe0c2;
+        }
+        .live-badge {
+            background: #00c853;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px; /* Reduced */
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .live-dot {
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Sections */
+        .section { margin-top: 10px; /* Reduced from 15px */ }
+        .section-title {
+            font-size: 12px; /* Reduced from 13px */
+            font-weight: 700; 
+            color: #444; 
+            margin-bottom: 4px; /* Reduced */
+        }
+        .otc-box {
+            background: #fff3e6; 
+            text-align: center; 
+            padding: 8px; /* Reduced from 12px */
+            border-radius: 8px; 
+            font-size: 24px; /* Reduced from 28px */
+            font-weight: 800;
+            color: #000000;
+            border: 1px solid #ffe0c2;
+        }
+        .grid-dynamic {
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 6px; /* Reduced from 8px */
+        }
+        .box {
+            text-align: center; 
+            padding: 6px 2px; /* Reduced padding */
+            border-radius: 6px;
+            font-size: 14px; /* Reduced from 16px */
+            font-weight: 800;
+        }
+        .box.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+        .box.red-text { background: #fff3e6; color: #d32f2f; border: 1px solid #ffe0c2; }
+
+        /* Footer */
+        .footer-info { text-align: center; margin-top: 15px; margin-bottom: 5px; /* Reduced margins */ }
+        .footer-info p { margin: 0; font-size: 13px; font-weight: 600; color: #555; }
+        .footer-info h2 { margin: 2px 0 0 0; font-size: 22px; color: #1976d2; font-weight: 800; }
+
+        /* Settings Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); display: none; justify-content: center;
+            align-items: center; z-index: 1000;
+        }
+        .modal {
+            background: white; padding: 20px; border-radius: 15px; width: 90%;
+            max-width: 400px; max-height: 90vh; overflow-y: auto;
+        }
+        .modal h3 { margin-top: 0; font-size: 18px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 5px; color: #333; }
+        .form-group input {
+            width: 100%; padding: 10px; border: 1px solid #ccc;
+            border-radius: 6px; box-sizing: border-box; font-family: 'Poppins', sans-serif;
+        }
+        .form-note { font-size: 10px; color: #666; margin-top: 3px; display: block; }
+        .modal-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .btn-save { background: #00c853; color: white; }
+        .btn-cancel { background: #f44336; color: white; }
+        #status-msg { font-size: 12px; color: green; font-weight: bold; margin-top: 10px; display: none; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <!-- Live Clock -->
+    <div id="live-clock">Live Time : 00:00:00 AM</div>
+
+    <!-- Main Headline (Click to open Settings) -->
+    <h1 id="val-headline" class="main-headline" onclick="openSettings()" title="Click to open settings">ANK KHAZANA</h1>
+
+    <!-- Main Card -->
+    <div class="card">
+        <!-- Watermark -->
+        <div id="val-watermark1" class="watermark watermark-top">987 654 3210</div>
+        <div id="val-watermark2" class="watermark watermark-bottom">987 654 3210</div>
+
+        <!-- Header -->
+        <div class="header">
+            <img src="https://i.imgur.com/XvToOoW.png" class="header-icon" id="val-logo" alt="Market Logo">
+            <h2 class="header-title" id="val-title">MAIN BAZAR</h2>
+        </div>
+
+        <div class="content-area">
+            <div class="date-row">
+                <span id="val-datetime">Loading...</span>
+                <div class="live-badge"><div class="live-dot"></div> LIVE</div>
+            </div>
+            <div class="section">
+                <div class="section-title">OTC</div>
+                <div class="otc-box" id="val-otc">- / -</div>
+            </div>
+            <div class="section">
+                <div class="section-title">PANEL</div>
+                <div class="grid-dynamic" id="container-panels"></div>
+            </div>
+            <div class="section">
+                <div class="section-title">JODI</div>
+                <div class="grid-dynamic" id="container-jodis"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer-info">
+        <p>Call For Demo</p>
+        <h2 id="val-phone">Loading...</h2>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal">
+            <h3>Edit Live Details</h3>
+            
+            <div class="form-group">
+                <label>Top Headline</label>
+                <input type="text" id="inp-headline">
+            </div>
+            
+            <div class="form-group">
+                <label>Live Timer (Leave blank for real clock)</label>
+                <input type="text" id="inp-livetime" placeholder="e.g. 10:30:00 AM">
+            </div>
+
+            <div class="form-group"><label>Logo Image URL</label><input type="text" id="inp-logo"></div>
+            <div class="form-group"><label>Market Name</label><input type="text" id="inp-title"></div>
+            <div class="form-group"><label>Watermark Number</label><input type="text" id="inp-watermark"></div>
+            <div class="form-group"><label>Date & Time</label><input type="text" id="inp-datetime"></div>
+            <div class="form-group"><label>OTC</label><input type="text" id="inp-otc"></div>
+            
+            <div class="form-group"><label>PANEL</label><input type="text" id="inp-panels">
+            <span class="form-note">Put space between numbers (e.g. 348 122 288)</span></div>
+            
+            <div class="form-group"><label>JODI</label><input type="text" id="inp-jodis">
+            <span class="form-note">Put space between numbers (e.g. 53 58 85)</span></div>
+            
+            <div class="form-group"><label>Mobile Number</label><input type="text" id="inp-phone"></div>
+            
+            <div id="status-msg">Saving...</div>
+            <div class="modal-btns">
+                <button class="btn btn-cancel" onclick="closeSettings()">Cancel</button>
+                <button class="btn btn-save" onclick="saveSettings()">Save to Live</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE MODULE SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDVxg4EZHm4D2zMrz_ndLzcqx3wkhdPdVc",
+            authDomain: "rudraksh-d74c3.firebaseapp.com",
+            databaseURL: "https://rudraksh-d74c3-default-rtdb.firebaseio.com",
+            projectId: "rudraksh-d74c3",
+            storageBucket: "rudraksh-d74c3.firebasestorage.app",
+            messagingSenderId: "270620722307",
+            appId: "1:270620722307:web:ff0278bb5d0e743df6c7b6",
+            measurementId: "G-LW5DNWYCKL"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const cardRef = ref(db, 'marketCard');
+
+        let currentData = {
+            headline: 'ANK KHAZANA',
+            livetime: '',
+            livetime_ts: 0,
+            logo: 'https://i.imgur.com/XvToOoW.png',
+            title: 'MAIN BAZAR',
+            watermark: '987 654 3210',
+            datetime: '31/07/2026 - 09:00 PM',
+            otc: '5 / 8',
+            panels: '348 122 288 170',
+            jodis: '53 58 85 80',
+            phone: '+91 9876543210'
+        };
+
+        let fakeTime = null;
+
+        function parseTimeStr(timeStr) {
+            const regex = /(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(AM|PM)?/i;
+            const match = timeStr.match(regex);
+            if (!match) return null;
+            
+            let h = parseInt(match[1], 10);
+            let m = parseInt(match[2], 10);
+            let s = match[3] ? parseInt(match[3], 10) : 0;
+            let ampm = match[4] ? match[4].toUpperCase() : null;
+            
+            if (ampm === 'PM' && h < 12) h += 12;
+            if (ampm === 'AM' && h === 12) h = 0;
+            
+            let d = new Date();
+            d.setHours(h, m, s, 0);
+            return d;
+        }
+
+        onValue(cardRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                currentData = data;
+                updateUI(data);
+
+                if (data.livetime && data.livetime.trim() !== '') {
+                    let parsedDate = parseTimeStr(data.livetime);
+                    if (parsedDate) {
+                        if (data.livetime_ts) {
+                            let elapsed = Date.now() - data.livetime_ts;
+                            parsedDate = new Date(parsedDate.getTime() + elapsed);
+                        }
+                        fakeTime = parsedDate;
+                    } else {
+                        fakeTime = null;
+                    }
+                } else {
+                    fakeTime = null;
+                }
+
+            } else {
+                updateUI(currentData); 
+            }
+        });
+
+        function parseNumbers(str) {
+            if(!str) return [];
+            return str.replace(/,/g, ' ').trim().split(/\s+/);
+        }
+
+        function updateUI(data) {
+            document.getElementById('val-headline').innerText = data.headline || '';
+            document.getElementById('val-logo').src = data.logo || '';
+            document.getElementById('val-title').innerText = data.title || '';
+            document.getElementById('val-datetime').innerText = data.datetime || '';
+            document.getElementById('val-otc').innerText = data.otc || '';
+            document.getElementById('val-phone').innerText = data.phone || '';
+
+            const wmTxt = data.watermark || '';
+            document.getElementById('val-watermark1').innerText = wmTxt;
+            document.getElementById('val-watermark2').innerText = wmTxt;
+            const disp = wmTxt.trim() === '' ? 'none' : 'block';
+            document.getElementById('val-watermark1').style.display = disp;
+            document.getElementById('val-watermark2').style.display = disp;
+
+            renderBoxes('container-panels', parseNumbers(data.panels), 'green');
+            renderBoxes('container-jodis', parseNumbers(data.jodis), 'red-text');
+        }
+
+        function renderBoxes(containerId, array, colorClass) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; 
+            array.forEach(num => {
+                let val = num.trim();
+                if(val !== "") container.innerHTML += `<div class="box ${colorClass}">${val}</div>`;
+            });
+        }
+
+        window.openSettings = function() {
+            document.getElementById('inp-headline').value = currentData.headline || '';
+            document.getElementById('inp-livetime').value = currentData.livetime || '';
+            document.getElementById('inp-logo').value = currentData.logo || '';
+            document.getElementById('inp-title').value = currentData.title || '';
+            document.getElementById('inp-watermark').value = currentData.watermark || '';
+            document.getElementById('inp-datetime').value = currentData.datetime || '';
+            document.getElementById('inp-otc').value = currentData.otc || '';
+            document.getElementById('inp-panels').value = currentData.panels || '';
+            document.getElementById('inp-jodis').value = currentData.jodis || '';
+            document.getElementById('inp-phone').value = currentData.phone || '';
+            document.getElementById('settings-modal').style.display = 'flex';
+        };
+
+        window.closeSettings = function() {
+            document.getElementById('settings-modal').style.display = 'none';
+            document.getElementById('status-msg').style.display = 'none';
+        };
+
+        window.saveSettings = function() {
+            const statusMsg = document.getElementById('status-msg');
+            statusMsg.style.display = 'block';
+            statusMsg.innerText = "Saving to Server...";
+
+            const newData = {
+                headline: document.getElementById('inp-headline').value,
+                livetime: document.getElementById('inp-livetime').value,
+                livetime_ts: Date.now(), 
+                logo: document.getElementById('inp-logo').value,
+                title: document.getElementById('inp-title').value,
+                watermark: document.getElementById('inp-watermark').value,
+                datetime: document.getElementById('inp-datetime').value,
+                otc: document.getElementById('inp-otc').value,
+                panels: document.getElementById('inp-panels').value,
+                jodis: document.getElementById('inp-jodis').value,
+                phone: document.getElementById('inp-phone').value
+            };
+
+            set(cardRef, newData).then(() => {
+                statusMsg.innerText = "Saved Successfully!";
+                setTimeout(() => { closeSettings(); }, 800);
+            }).catch((error) => {
+                statusMsg.style.color = "red";
+                statusMsg.innerText = "Error: Please check Firebase Rules";
+                console.error(error);
+            });
+        };
+
+        // Live Clock Tick Logic
+        setInterval(() => {
+            let now;
+            if (fakeTime) {
+                fakeTime.setSeconds(fakeTime.getSeconds() + 1);
+                now = fakeTime;
+            } else {
+                now = new Date();
+            }
+
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12; h = h ? h : 12;
+            m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
+            document.getElementById('live-clock').innerText = `Live Time : ${h}:${m}:${s} ${ampm}`;
+        }, 1000);
+
+    </script>
+</body>
+</html>
