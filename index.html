@@ -259,8 +259,14 @@
             <div class="form-group"><label>Watermark Number</label><input type="text" id="inp-watermark"></div>
             <div class="form-group"><label>Date & Time</label><input type="text" id="inp-datetime"></div>
             <div class="form-group"><label>OTC</label><input type="text" id="inp-otc"></div>
-            <div class="form-group"><label>PANEL (Comma separated)</label><input type="text" id="inp-panels"></div>
-            <div class="form-group"><label>JODI (Comma separated)</label><input type="text" id="inp-jodis"></div>
+            
+            <!-- Changed instructions to "Space separated" -->
+            <div class="form-group"><label>PANEL</label><input type="text" id="inp-panels">
+            <span class="form-note">Put space between numbers (e.g. 348 122 288)</span></div>
+            
+            <div class="form-group"><label>JODI</label><input type="text" id="inp-jodis">
+            <span class="form-note">Put space between numbers (e.g. 53 58 85)</span></div>
+            
             <div class="form-group"><label>Mobile Number</label><input type="text" id="inp-phone"></div>
             <div id="status-msg">Saving...</div>
             <div class="modal-btns">
@@ -292,7 +298,7 @@
         const db = getDatabase(app);
         const cardRef = ref(db, 'marketCard');
 
-        // Variables to hold current data
+        // Initial default data updated to use spaces instead of commas
         let currentData = {
             headline: 'ANK KHAZANA',
             logo: 'https://i.imgur.com/XvToOoW.png',
@@ -300,21 +306,28 @@
             watermark: '987 654 3210',
             datetime: '31/07/2026 - 09:00 PM',
             otc: '5 / 8',
-            panels: '348, 122, 288, 170',
-            jodis: '53, 58, 85, 80',
+            panels: '348 122 288 170',
+            jodis: '53 58 85 80',
             phone: '+91 9876543210'
         };
 
-        // Real-time Data Listener (Auto Updates UI)
+        // Real-time Data Listener
         onValue(cardRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 currentData = data;
                 updateUI(data);
             } else {
-                updateUI(currentData); // Load defaults if database is empty
+                updateUI(currentData); 
             }
         });
+
+        // Smart parse function: handles spaces, multiple spaces, and even accidental commas
+        function parseNumbers(str) {
+            if(!str) return [];
+            // Replace commas with spaces, then split by 1 or more spaces
+            return str.replace(/,/g, ' ').trim().split(/\s+/);
+        }
 
         // Update UI Function
         function updateUI(data) {
@@ -333,9 +346,9 @@
             document.getElementById('val-watermark1').style.display = disp;
             document.getElementById('val-watermark2').style.display = disp;
 
-            // Render Dynamic Boxes
-            renderBoxes('container-panels', data.panels.split(','), 'green');
-            renderBoxes('container-jodis', data.jodis.split(','), 'orange');
+            // Render Dynamic Boxes (Now using the smart parse function)
+            renderBoxes('container-panels', parseNumbers(data.panels), 'green');
+            renderBoxes('container-jodis', parseNumbers(data.jodis), 'orange');
         }
 
         // Render Boxes
@@ -348,17 +361,16 @@
             });
         }
 
-        // Assigning functions to window so HTML buttons can click them
         window.openSettings = function() {
-            document.getElementById('inp-headline').value = currentData.headline;
-            document.getElementById('inp-logo').value = currentData.logo;
-            document.getElementById('inp-title').value = currentData.title;
-            document.getElementById('inp-watermark').value = currentData.watermark;
-            document.getElementById('inp-datetime').value = currentData.datetime;
-            document.getElementById('inp-otc').value = currentData.otc;
-            document.getElementById('inp-panels').value = currentData.panels;
-            document.getElementById('inp-jodis').value = currentData.jodis;
-            document.getElementById('inp-phone').value = currentData.phone;
+            document.getElementById('inp-headline').value = currentData.headline || '';
+            document.getElementById('inp-logo').value = currentData.logo || '';
+            document.getElementById('inp-title').value = currentData.title || '';
+            document.getElementById('inp-watermark').value = currentData.watermark || '';
+            document.getElementById('inp-datetime').value = currentData.datetime || '';
+            document.getElementById('inp-otc').value = currentData.otc || '';
+            document.getElementById('inp-panels').value = currentData.panels || '';
+            document.getElementById('inp-jodis').value = currentData.jodis || '';
+            document.getElementById('inp-phone').value = currentData.phone || '';
             document.getElementById('settings-modal').style.display = 'flex';
         };
 
@@ -384,7 +396,6 @@
                 phone: document.getElementById('inp-phone').value
             };
 
-            // Save to Firebase Database
             set(cardRef, newData).then(() => {
                 statusMsg.innerText = "Saved Successfully!";
                 setTimeout(() => { closeSettings(); }, 800);
