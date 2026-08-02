@@ -33,11 +33,11 @@
 
         /* 👑 Headline Background Box 👑 */
         .headline-wrapper {
-            background-color: #fff3e6; /* Light Orange Background */
+            background-color: #fff3e6; 
             border: 1px solid #ffe0c2;
             width: 100%;
             max-width: 400px;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 12px;
             margin-top: 5px;
             margin-bottom: 15px;
@@ -49,27 +49,28 @@
         }
         
         .headline-wrapper:hover {
-            transform: scale(1.02); /* Hover करने पर हल्का सा बड़ा होगा */
+            transform: scale(1.02); 
         }
 
-        /* Royal Animated Text */
+        /* Royal Animated Text - FIXED FOR CONTRAST */
         .main-headline {
-            font-size: 28px; 
+            font-size: 30px; 
             font-weight: 800;
-            margin: 0; /* Margin handled by the wrapper now */
+            margin: 0; 
             text-transform: uppercase;
             letter-spacing: 2px;
             
-            /* Golden Shimmer Gradient */
-            background: linear-gradient(90deg, #B8860B 0%, #FFD700 25%, #FFF8DC 50%, #FFD700 75%, #B8860B 100%);
+            /* Rich Golden Shimmer Gradient */
+            background: linear-gradient(90deg, #d4af37 0%, #fff200 25%, #ffdf00 50%, #fff200 75%, #d4af37 100%);
             background-size: 200% auto;
             color: #FFD700;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             
-            /* 3D Drop Shadow */
-            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.25));
+            /* Dark outline & strong shadow to make it pop on light background */
+            -webkit-text-stroke: 1px #704214; 
+            filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.3));
             animation: goldShimmer 3s linear infinite;
         }
 
@@ -91,23 +92,24 @@
             padding-bottom: 10px; 
         }
 
-        /* Watermarks */
+        /* Watermarks - PROFESSIONALLY SET */
         .watermark {
             position: absolute;
-            font-size: 34px; 
+            font-size: 26px; /* Slightly smaller */
             font-weight: 800;
-            color: rgba(0, 0, 0, 0.12);
+            color: rgba(0, 0, 0, 0.05); /* Lighter opacity so it doesn't clash */
             z-index: 10; 
             pointer-events: none;
             white-space: nowrap;
+            letter-spacing: 4px; /* Spaced out numbers */
         }
         .watermark-top {
-            top: 30%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-35deg);
+            top: 35%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg); /* Softer angle */
         }
         .watermark-bottom {
             top: 75%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-35deg);
+            transform: translate(-50%, -50%) rotate(-25deg);
         }
 
         /* Header section */
