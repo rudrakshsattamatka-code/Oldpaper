@@ -15,21 +15,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh; /* Ensures full height */
-        }
-
-        /* Live Clock */
-        #live-clock {
-            font-size: 16px; 
-            font-weight: 700;
-            color: #0056b3;
-            margin-bottom: 8px; 
-            background: #e3f2fd;
-            padding: 6px 16px; 
-            border-radius: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: center;
-            border: 1px solid #bbdefb;
+            min-height: 100vh; 
         }
 
         /* 👑 Headline Background Box 👑 */
@@ -40,8 +26,8 @@
             max-width: 400px;
             padding: 12px 15px;
             border-radius: 12px;
-            margin-top: 5px;
-            margin-bottom: 15px;
+            margin-top: 35px; /* Added extra blank space above the headline */
+            margin-bottom: 12px; /* Adjusted gap below headline */
             box-sizing: border-box;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             cursor: pointer;
@@ -79,6 +65,20 @@
             to {
                 background-position: 200% center;
             }
+        }
+
+        /* Live Clock */
+        #live-clock {
+            font-size: 16px; 
+            font-weight: 700;
+            color: #0056b3;
+            margin-bottom: 15px; /* Space between clock and main card */
+            background: #e3f2fd;
+            padding: 6px 16px; 
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid #bbdefb;
         }
 
         /* Main Card */
@@ -221,13 +221,13 @@
         .footer-info p { margin: 0; font-size: 13px; font-weight: 600; color: #555; }
         .footer-info h2 { margin: 2px 0 0 0; font-size: 22px; color: #1976d2; font-weight: 800; }
 
-        /* 🆕 Bottom Blank Space & Founded Text 🆕 */
+        /* Bottom Founded Text with Half Page Blank Space */
         .bottom-founded {
-            margin-top: 50vh; /* 50vh = Half of the screen height */
+            margin-top: 50vh; 
             margin-bottom: 20px;
             font-size: 13px;
             font-weight: 600;
-            color: #888; /* Professional light gray color */
+            color: #888; 
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -260,13 +260,13 @@
 </head>
 <body>
 
-    <!-- Live Clock -->
-    <div id="live-clock">Live Time : 00:00:00 AM</div>
-
-    <!-- Main Headline Container (Click to open Settings) -->
+    <!-- Main Headline Container (Click to open Settings) NOW ON TOP -->
     <div class="headline-wrapper" onclick="openSettings()" title="Click to open settings">
         <h1 id="val-headline" class="main-headline">ANK KHAZANA</h1>
     </div>
+
+    <!-- Live Clock NOW BELOW HEADLINE -->
+    <div id="live-clock">Live Time : 00:00:00 AM</div>
 
     <!-- Main Card -->
     <div class="card">
