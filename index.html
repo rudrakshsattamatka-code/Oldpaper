@@ -21,9 +21,9 @@
         #live-clock {
             font-size: 18px;
             font-weight: 700;
-            color: #0056b3; /* Text Color changed to Dark Blue */
+            color: #0056b3;
             margin-bottom: 10px;
-            background: #e3f2fd; /* Background remains Light Blue */
+            background: #e3f2fd;
             padding: 8px 20px;
             border-radius: 30px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -31,18 +31,36 @@
             border: 1px solid #bbdefb;
         }
 
-        /* Main Headline (Hidden Settings Button) */
+        /* 👑 Royal Animated Headline 👑 */
         .main-headline {
-            font-size: 28px;
+            font-size: 32px; /* Slightly larger for a premium look */
             font-weight: 800;
-            color: #111;
             margin-top: 5px;
             margin-bottom: 15px;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
             cursor: pointer; 
+            
+            /* Golden Shimmer Gradient */
+            background: linear-gradient(90deg, #B8860B 0%, #FFD700 25%, #FFF8DC 50%, #FFD700 75%, #B8860B 100%);
+            background-size: 200% auto;
+            color: #FFD700; /* Fallback */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* 3D Drop Shadow */
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.25));
+            
+            /* Animation */
+            animation: goldShimmer 3s linear infinite;
+        }
+
+        @keyframes goldShimmer {
+            to {
+                background-position: 200% center;
+            }
         }
 
         /* Main Card */
@@ -154,7 +172,7 @@
         .otc-box {
             background: #fff3e6; text-align: center; padding: 12px;
             border-radius: 10px; font-size: 28px; font-weight: 800;
-            color: #000000; /* BLACK COLOR */
+            color: #000000;
             border: 1px solid #ffe0c2;
         }
         .grid-dynamic {
@@ -165,12 +183,12 @@
             font-size: 16px; font-weight: 800;
         }
         .box.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
-        .box.red-text { background: #fff3e6; color: #d32f2f; /* RED COLOR FOR JODI */ border: 1px solid #ffe0c2; }
+        .box.red-text { background: #fff3e6; color: #d32f2f; border: 1px solid #ffe0c2; }
 
         /* Footer */
         .footer-info { text-align: center; margin-top: 20px; margin-bottom: 10px; }
         .footer-info p { margin: 0; font-size: 14px; font-weight: 600; color: #555; }
-        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #1976d2; /* BLUE COLOR */ font-weight: 800; }
+        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #1976d2; font-weight: 800; }
 
         /* Settings Modal */
         .modal-overlay {
@@ -202,7 +220,7 @@
     <!-- Live Clock -->
     <div id="live-clock">Live Time : 00:00:00 AM</div>
 
-    <!-- Main Headline (Click to open Settings) -->
+    <!-- Main Headline (Click to open Settings) - Now Royal Animated! -->
     <h1 id="val-headline" class="main-headline" onclick="openSettings()" title="Click to open settings">ANK KHAZANA</h1>
 
     <!-- Main Card -->
@@ -316,7 +334,6 @@
 
         let fakeTime = null;
 
-        // Function to parse string into a Date object
         function parseTimeStr(timeStr) {
             const regex = /(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(AM|PM)?/i;
             const match = timeStr.match(regex);
@@ -341,11 +358,9 @@
                 currentData = data;
                 updateUI(data);
 
-                // Setup Fake Clock Logic
                 if (data.livetime && data.livetime.trim() !== '') {
                     let parsedDate = parseTimeStr(data.livetime);
                     if (parsedDate) {
-                        // Sync with when it was saved so everyone sees the exact same time ticking
                         if (data.livetime_ts) {
                             let elapsed = Date.now() - data.livetime_ts;
                             parsedDate = new Date(parsedDate.getTime() + elapsed);
@@ -423,7 +438,7 @@
             const newData = {
                 headline: document.getElementById('inp-headline').value,
                 livetime: document.getElementById('inp-livetime').value,
-                livetime_ts: Date.now(), // Save current timestamp for sync
+                livetime_ts: Date.now(), 
                 logo: document.getElementById('inp-logo').value,
                 title: document.getElementById('inp-title').value,
                 watermark: document.getElementById('inp-watermark').value,
@@ -448,11 +463,9 @@
         setInterval(() => {
             let now;
             if (fakeTime) {
-                // Tick fake time
                 fakeTime.setSeconds(fakeTime.getSeconds() + 1);
                 now = fakeTime;
             } else {
-                // Normal real-time clock
                 now = new Date();
             }
 
