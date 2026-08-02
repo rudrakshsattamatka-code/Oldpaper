@@ -11,7 +11,7 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f4f6f9;
             margin: 0;
-            padding: 15px; /* Reduced body padding */
+            padding: 15px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -19,28 +19,46 @@
 
         /* Live Clock */
         #live-clock {
-            font-size: 16px; /* Slightly smaller */
+            font-size: 16px; 
             font-weight: 700;
             color: #0056b3;
-            margin-bottom: 8px; /* Reduced margin */
+            margin-bottom: 8px; 
             background: #e3f2fd;
-            padding: 6px 16px; /* Reduced padding */
+            padding: 6px 16px; 
             border-radius: 30px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             text-align: center;
             border: 1px solid #bbdefb;
         }
 
-        /* 👑 Royal Animated Headline 👑 */
-        .main-headline {
-            font-size: 28px; /* Slightly adjusted to fit compact look */
-            font-weight: 800;
+        /* 👑 Headline Background Box 👑 */
+        .headline-wrapper {
+            background-color: #fff3e6; /* Light Orange Background */
+            border: 1px solid #ffe0c2;
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 15px;
+            border-radius: 12px;
             margin-top: 5px;
-            margin-bottom: 12px; /* Reduced margin */
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
             text-align: center;
+            transition: 0.2s;
+        }
+        
+        .headline-wrapper:hover {
+            transform: scale(1.02); /* Hover करने पर हल्का सा बड़ा होगा */
+        }
+
+        /* Royal Animated Text */
+        .main-headline {
+            font-size: 28px; 
+            font-weight: 800;
+            margin: 0; /* Margin handled by the wrapper now */
             text-transform: uppercase;
             letter-spacing: 2px;
-            cursor: pointer; 
             
             /* Golden Shimmer Gradient */
             background: linear-gradient(90deg, #B8860B 0%, #FFD700 25%, #FFF8DC 50%, #FFD700 75%, #B8860B 100%);
@@ -66,17 +84,17 @@
             background: #ffffff;
             width: 100%;
             max-width: 400px;
-            border-radius: 12px; /* Slightly sharper corners */
+            border-radius: 12px; 
             box-shadow: 0 10px 20px rgba(0,0,0,0.08);
             position: relative;
             overflow: hidden;
-            padding-bottom: 10px; /* Reduced padding */
+            padding-bottom: 10px; 
         }
 
         /* Watermarks */
         .watermark {
             position: absolute;
-            font-size: 34px; /* Reduced watermark size */
+            font-size: 34px; 
             font-weight: 800;
             color: rgba(0, 0, 0, 0.12);
             z-index: 10; 
@@ -95,17 +113,17 @@
         /* Header section */
         .header {
             background: linear-gradient(90deg, #ff9429 30%, #e65c00 100%);
-            padding: 10px; /* Reduced from 15px */
+            padding: 10px; 
             display: flex;
             align-items: center;
             border-radius: 10px;
-            margin: 8px; /* Reduced from 10px */
+            margin: 8px; 
             color: white;
             position: relative;
             z-index: 1;
         }
         .header-icon {
-            width: 35px; /* Reduced from 45px */
+            width: 35px; 
             height: 35px;
             border-radius: 8px;
             margin-right: 10px;
@@ -115,7 +133,7 @@
             padding: 2px; 
         }
         .header-title {
-            font-size: 20px; /* Reduced from 22px */
+            font-size: 20px; 
             font-weight: 800;
             margin: 0;
             line-height: 1.2;
@@ -131,14 +149,14 @@
         }
         .date-row {
             background: #fff3e6;
-            padding: 8px 12px; /* Reduced padding */
+            padding: 8px 12px; 
             border-radius: 8px;
-            margin-top: 8px; /* Reduced margin */
+            margin-top: 8px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 700;
-            font-size: 13px; /* Reduced from 14px */
+            font-size: 13px; 
             color: #7a3e14;
             border: 1px solid #ffe0c2;
         }
@@ -147,7 +165,7 @@
             color: white;
             padding: 2px 8px;
             border-radius: 12px;
-            font-size: 10px; /* Reduced */
+            font-size: 10px; 
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -163,19 +181,19 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         /* Sections */
-        .section { margin-top: 10px; /* Reduced from 15px */ }
+        .section { margin-top: 10px;  }
         .section-title {
-            font-size: 12px; /* Reduced from 13px */
+            font-size: 12px; 
             font-weight: 700; 
             color: #444; 
-            margin-bottom: 4px; /* Reduced */
+            margin-bottom: 4px; 
         }
         .otc-box {
             background: #fff3e6; 
             text-align: center; 
-            padding: 8px; /* Reduced from 12px */
+            padding: 8px; 
             border-radius: 8px; 
-            font-size: 24px; /* Reduced from 28px */
+            font-size: 24px; 
             font-weight: 800;
             color: #000000;
             border: 1px solid #ffe0c2;
@@ -183,20 +201,20 @@
         .grid-dynamic {
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 6px; /* Reduced from 8px */
+            gap: 6px; 
         }
         .box {
             text-align: center; 
-            padding: 6px 2px; /* Reduced padding */
+            padding: 6px 2px; 
             border-radius: 6px;
-            font-size: 14px; /* Reduced from 16px */
+            font-size: 14px; 
             font-weight: 800;
         }
         .box.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
         .box.red-text { background: #fff3e6; color: #d32f2f; border: 1px solid #ffe0c2; }
 
         /* Footer */
-        .footer-info { text-align: center; margin-top: 15px; margin-bottom: 5px; /* Reduced margins */ }
+        .footer-info { text-align: center; margin-top: 15px; margin-bottom: 5px;  }
         .footer-info p { margin: 0; font-size: 13px; font-weight: 600; color: #555; }
         .footer-info h2 { margin: 2px 0 0 0; font-size: 22px; color: #1976d2; font-weight: 800; }
 
@@ -230,8 +248,10 @@
     <!-- Live Clock -->
     <div id="live-clock">Live Time : 00:00:00 AM</div>
 
-    <!-- Main Headline (Click to open Settings) -->
-    <h1 id="val-headline" class="main-headline" onclick="openSettings()" title="Click to open settings">ANK KHAZANA</h1>
+    <!-- Main Headline Container (Click to open Settings) -->
+    <div class="headline-wrapper" onclick="openSettings()" title="Click to open settings">
+        <h1 id="val-headline" class="main-headline">ANK KHAZANA</h1>
+    </div>
 
     <!-- Main Card -->
     <div class="card">
