@@ -21,9 +21,9 @@
         #live-clock {
             font-size: 18px;
             font-weight: 700;
-            color: #d32f2f;
+            color: #0056b3; /* Text Color changed to Dark Blue */
             margin-bottom: 10px;
-            background: #e3f2fd; /* Light Blue Background */
+            background: #e3f2fd; /* Background remains Light Blue */
             padding: 8px 20px;
             border-radius: 30px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -42,7 +42,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            cursor: pointer; /* Makes it feel clickable like a button */
+            cursor: pointer; 
         }
 
         /* Main Card */
@@ -154,7 +154,7 @@
         .otc-box {
             background: #fff3e6; text-align: center; padding: 12px;
             border-radius: 10px; font-size: 28px; font-weight: 800;
-            color: #000000; /* BLACK COLOR FOR OTC */
+            color: #000000; /* BLACK COLOR */
             border: 1px solid #ffe0c2;
         }
         .grid-dynamic {
@@ -170,7 +170,7 @@
         /* Footer */
         .footer-info { text-align: center; margin-top: 20px; margin-bottom: 10px; }
         .footer-info p { margin: 0; font-size: 14px; font-weight: 600; color: #555; }
-        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #1976d2; /* BLUE COLOR FOR NUMBER */ font-weight: 800; }
+        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #1976d2; /* BLUE COLOR */ font-weight: 800; }
 
         /* Settings Modal */
         .modal-overlay {
@@ -202,7 +202,7 @@
     <!-- Live Clock -->
     <div id="live-clock">Live Time : 00:00:00 AM</div>
 
-    <!-- Main Headline (Clickable to open Settings) -->
+    <!-- Main Headline (Click to open Settings) -->
     <h1 id="val-headline" class="main-headline" onclick="openSettings()" title="Click to open settings">ANK KHAZANA</h1>
 
     <!-- Main Card -->
@@ -254,8 +254,8 @@
             </div>
             
             <div class="form-group">
-                <label>Live Timer (Leave blank for auto clock)</label>
-                <input type="text" id="inp-livetime" placeholder="e.g. 10:30 AM">
+                <label>Live Timer (Leave blank for real clock)</label>
+                <input type="text" id="inp-livetime" placeholder="e.g. 10:30:00 AM">
             </div>
 
             <div class="form-group"><label>Logo Image URL</label><input type="text" id="inp-logo"></div>
@@ -303,6 +303,7 @@
         let currentData = {
             headline: 'ANK KHAZANA',
             livetime: '',
+            livetime_ts: 0,
             logo: 'https://i.imgur.com/XvToOoW.png',
             title: 'MAIN BAZAR',
             watermark: '987 654 3210',
@@ -313,11 +314,50 @@
             phone: '+91 9876543210'
         };
 
+        let fakeTime = null;
+
+        // Function to parse string into a Date object
+        function parseTimeStr(timeStr) {
+            const regex = /(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(AM|PM)?/i;
+            const match = timeStr.match(regex);
+            if (!match) return null;
+            
+            let h = parseInt(match[1], 10);
+            let m = parseInt(match[2], 10);
+            let s = match[3] ? parseInt(match[3], 10) : 0;
+            let ampm = match[4] ? match[4].toUpperCase() : null;
+            
+            if (ampm === 'PM' && h < 12) h += 12;
+            if (ampm === 'AM' && h === 12) h = 0;
+            
+            let d = new Date();
+            d.setHours(h, m, s, 0);
+            return d;
+        }
+
         onValue(cardRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 currentData = data;
                 updateUI(data);
+
+                // Setup Fake Clock Logic
+                if (data.livetime && data.livetime.trim() !== '') {
+                    let parsedDate = parseTimeStr(data.livetime);
+                    if (parsedDate) {
+                        // Sync with when it was saved so everyone sees the exact same time ticking
+                        if (data.livetime_ts) {
+                            let elapsed = Date.now() - data.livetime_ts;
+                            parsedDate = new Date(parsedDate.getTime() + elapsed);
+                        }
+                        fakeTime = parsedDate;
+                    } else {
+                        fakeTime = null;
+                    }
+                } else {
+                    fakeTime = null;
+                }
+
             } else {
                 updateUI(currentData); 
             }
@@ -383,6 +423,7 @@
             const newData = {
                 headline: document.getElementById('inp-headline').value,
                 livetime: document.getElementById('inp-livetime').value,
+                livetime_ts: Date.now(), // Save current timestamp for sync
                 logo: document.getElementById('inp-logo').value,
                 title: document.getElementById('inp-title').value,
                 watermark: document.getElementById('inp-watermark').value,
@@ -403,21 +444,25 @@
             });
         };
 
-        // Live Clock logic & Override check
+        // Live Clock Tick Logic
         setInterval(() => {
-            // Check if user set a custom live time
-            if (currentData.livetime && currentData.livetime.trim() !== '') {
-                document.getElementById('live-clock').innerText = `Live Time : ${currentData.livetime}`;
+            let now;
+            if (fakeTime) {
+                // Tick fake time
+                fakeTime.setSeconds(fakeTime.getSeconds() + 1);
+                now = fakeTime;
             } else {
-                // Otherwise run real-time clock
-                const now = new Date();
-                let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-                let ampm = h >= 12 ? 'PM' : 'AM';
-                h = h % 12; h = h ? h : 12;
-                m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
-                document.getElementById('live-clock').innerText = `Live Time : ${h}:${m}:${s} ${ampm}`;
+                // Normal real-time clock
+                now = new Date();
             }
+
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12; h = h ? h : 12;
+            m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
+            document.getElementById('live-clock').innerText = `Live Time : ${h}:${m}:${s} ${ampm}`;
         }, 1000);
+
     </script>
 </body>
 </html>
