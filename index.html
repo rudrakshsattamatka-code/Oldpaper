@@ -55,18 +55,25 @@
             padding-bottom: 15px;
         }
 
-        /* Watermark - Now set to show ON TOP of content */
+        /* Watermarks - 2 Places (Top & Bottom Cross) */
         .watermark {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-35deg);
-            font-size: 45px;
+            font-size: 38px;
             font-weight: 800;
-            color: rgba(0, 0, 0, 0.15); /* Transparent Black so it's visible but readable */
-            z-index: 10; /* High z-index to stay above boxes */
+            color: rgba(0, 0, 0, 0.12); /* हल्का पारदर्शी काला रंग */
+            z-index: 10; /* बॉक्सेस के ऊपर */
             pointer-events: none;
             white-space: nowrap;
+        }
+        .watermark-top {
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+        }
+        .watermark-bottom {
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
         }
 
         /* Header section */
@@ -81,14 +88,19 @@
             position: relative;
             z-index: 1;
         }
+        
+        /* New Image styling */
         .header-icon {
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             margin-right: 12px;
             flex-shrink: 0;
+            object-fit: cover;
+            background: #fff; /* इमेज के पीछे सफेद रंग ताकि वो अच्छे से दिखे */
+            padding: 2px; /* हल्की बॉर्डर जैसी फील के लिए */
         }
+
         .header-title {
             font-size: 22px;
             font-weight: 800;
@@ -299,12 +311,14 @@
 
     <!-- Main Card -->
     <div class="card">
-        <!-- Watermark Number (Now on TOP of content) -->
-        <div id="val-watermark" class="watermark">987 654 3210</div>
+        <!-- Watermark Number (Top & Bottom) -->
+        <div id="val-watermark1" class="watermark watermark-top">987 654 3210</div>
+        <div id="val-watermark2" class="watermark watermark-bottom">987 654 3210</div>
 
         <!-- Header -->
         <div class="header">
-            <div class="header-icon"></div>
+            <!-- New Added Image -->
+            <img src="https://i.imgur.com/XvToOoW.png" class="header-icon" id="val-logo" alt="Market Logo">
             <h2 class="header-title" id="val-title">MAIN BAZAR</h2>
         </div>
 
@@ -327,18 +341,14 @@
             <div class="section">
                 <div class="section-title">PANEL</div>
                 <!-- Dynamic Grid for Panel -->
-                <div class="grid-dynamic" id="container-panels">
-                    <!-- Numbers will be injected here via JS -->
-                </div>
+                <div class="grid-dynamic" id="container-panels"></div>
             </div>
 
             <!-- JODI -->
             <div class="section">
                 <div class="section-title">JODI</div>
                 <!-- Dynamic Grid for Jodi -->
-                <div class="grid-dynamic" id="container-jodis">
-                    <!-- Numbers will be injected here via JS -->
-                </div>
+                <div class="grid-dynamic" id="container-jodis"></div>
             </div>
         </div>
     </div>
@@ -360,6 +370,10 @@
             <div class="form-group">
                 <label>Top Headline</label>
                 <input type="text" id="inp-headline">
+            </div>
+            <div class="form-group">
+                <label>Logo Image URL</label>
+                <input type="text" id="inp-logo">
             </div>
             <div class="form-group">
                 <label>Market Name (Card Title)</label>
@@ -446,13 +460,20 @@
 
         // Settings Modal Logic
         const modal = document.getElementById('settings-modal');
-        const textFields = ['headline', 'title', 'datetime', 'otc', 'phone', 'watermark'];
+        const textFields = ['headline', 'title', 'datetime', 'otc', 'phone'];
 
         function openSettings() {
             // Load Normal Texts
             textFields.forEach(field => {
                 document.getElementById(`inp-${field}`).value = document.getElementById(`val-${field}`).innerText;
             });
+            
+            // Load Watermark (Using first one as reference)
+            document.getElementById('inp-watermark').value = document.getElementById('val-watermark1').innerText;
+            
+            // Load Logo Image URL
+            document.getElementById('inp-logo').value = document.getElementById('val-logo').src;
+
             // Load Arrays joined by comma
             document.getElementById('inp-panels').value = panelNumbers.join(', ');
             document.getElementById('inp-jodis').value = jodiNumbers.join(', ');
@@ -467,14 +488,21 @@
         function saveSettings() {
             // Save Normal Texts
             textFields.forEach(field => {
-                let inputVal = document.getElementById(`inp-${field}`).value;
-                document.getElementById(`val-${field}`).innerText = inputVal;
-                
-                // Show/Hide watermark entirely if empty
-                if(field === 'watermark') {
-                    document.getElementById('val-watermark').style.display = inputVal.trim() === '' ? 'none' : 'block';
-                }
+                document.getElementById(`val-${field}`).innerText = document.getElementById(`inp-${field}`).value;
             });
+
+            // Save Image Logo URL
+            document.getElementById('val-logo').src = document.getElementById('inp-logo').value;
+
+            // Save Watermarks (Update Both Top and Bottom)
+            let wmInput = document.getElementById('inp-watermark').value;
+            document.getElementById('val-watermark1').innerText = wmInput;
+            document.getElementById('val-watermark2').innerText = wmInput;
+            
+            // Show/Hide watermark entirely if empty
+            let wmDisplay = wmInput.trim() === '' ? 'none' : 'block';
+            document.getElementById('val-watermark1').style.display = wmDisplay;
+            document.getElementById('val-watermark2').style.display = wmDisplay;
 
             // Save & Render Arrays
             let panelsInput = document.getElementById('inp-panels').value;
