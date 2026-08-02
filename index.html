@@ -55,24 +55,22 @@
             padding-bottom: 15px;
         }
 
-        /* Watermarks - 2 Places (Top & Bottom Cross) */
+        /* Watermarks */
         .watermark {
             position: absolute;
             font-size: 38px;
             font-weight: 800;
-            color: rgba(0, 0, 0, 0.12); /* हल्का पारदर्शी काला रंग */
-            z-index: 10; /* बॉक्सेस के ऊपर */
+            color: rgba(0, 0, 0, 0.12);
+            z-index: 10; 
             pointer-events: none;
             white-space: nowrap;
         }
         .watermark-top {
-            top: 30%;
-            left: 50%;
+            top: 30%; left: 50%;
             transform: translate(-50%, -50%) rotate(-35deg);
         }
         .watermark-bottom {
-            top: 75%;
-            left: 50%;
+            top: 75%; left: 50%;
             transform: translate(-50%, -50%) rotate(-35deg);
         }
 
@@ -88,8 +86,6 @@
             position: relative;
             z-index: 1;
         }
-        
-        /* New Image styling */
         .header-icon {
             width: 45px;
             height: 45px;
@@ -97,10 +93,9 @@
             margin-right: 12px;
             flex-shrink: 0;
             object-fit: cover;
-            background: #fff; /* इमेज के पीछे सफेद रंग ताकि वो अच्छे से दिखे */
-            padding: 2px; /* हल्की बॉर्डर जैसी फील के लिए */
+            background: #fff; 
+            padding: 2px; 
         }
-
         .header-title {
             font-size: 22px;
             font-weight: 800;
@@ -116,8 +111,6 @@
             position: relative;
             z-index: 1; 
         }
-
-        /* Date & Live Badge */
         .date-row {
             background: #fff3e6;
             padding: 10px 15px;
@@ -149,156 +142,62 @@
             border-radius: 50%;
             animation: blink 1s infinite;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         /* Sections */
-        .section {
-            margin-top: 15px;
-        }
+        .section { margin-top: 15px; }
         .section-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #444;
-            margin-bottom: 6px;
+            font-size: 13px; font-weight: 700; color: #444; margin-bottom: 6px;
         }
-
         .otc-box {
-            background: #fff3e6;
-            text-align: center;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 28px;
-            font-weight: 800;
-            color: #cc4a00;
-            border: 1px solid #ffe0c2;
+            background: #fff3e6; text-align: center; padding: 12px;
+            border-radius: 10px; font-size: 28px; font-weight: 800;
+            color: #cc4a00; border: 1px solid #ffe0c2;
         }
-
         .grid-dynamic {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
         }
         .box {
-            text-align: center;
-            padding: 10px 2px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 800;
+            text-align: center; padding: 10px 2px; border-radius: 6px;
+            font-size: 16px; font-weight: 800;
         }
-        .box.green {
-            background: #e8f5e9;
-            color: #1b5e20;
-            border: 1px solid #c8e6c9;
-        }
-        .box.orange {
-            background: #fff3e6;
-            color: #cc4a00;
-            border: 1px solid #ffe0c2;
-        }
+        .box.green { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; }
+        .box.orange { background: #fff3e6; color: #cc4a00; border: 1px solid #ffe0c2; }
 
-        /* Footer Info */
-        .footer-info {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        .footer-info p {
-            margin: 0;
-            font-size: 14px;
-            font-weight: 600;
-            color: #555;
-        }
-        .footer-info h2 {
-            margin: 2px 0 0 0;
-            font-size: 24px;
-            color: #d32f2f;
-            font-weight: 800;
-        }
+        /* Footer */
+        .footer-info { text-align: center; margin-top: 20px; margin-bottom: 10px; }
+        .footer-info p { margin: 0; font-size: 14px; font-weight: 600; color: #555; }
+        .footer-info h2 { margin: 2px 0 0 0; font-size: 24px; color: #d32f2f; font-weight: 800; }
 
-        /* Settings Button */
+        /* Settings Button & Modal */
         .settings-btn {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: 0.2s;
+            background: #333; color: white; border: none; padding: 10px 20px;
+            font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer;
+            margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: 0.2s;
         }
-        .settings-btn:hover {
-            background: #000;
-        }
-
-        /* Settings Modal */
+        .settings-btn:hover { background: #000; }
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); display: none; justify-content: center;
+            align-items: center; z-index: 1000;
         }
         .modal {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            max-height: 90vh;
-            overflow-y: auto;
+            background: white; padding: 20px; border-radius: 15px; width: 90%;
+            max-width: 400px; max-height: 90vh; overflow-y: auto;
         }
-        .modal h3 {
-            margin-top: 0;
-            font-size: 18px;
-        }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #333;
-        }
+        .modal h3 { margin-top: 0; font-size: 18px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 5px; color: #333; }
         .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            width: 100%; padding: 10px; border: 1px solid #ccc;
+            border-radius: 6px; box-sizing: border-box; font-family: 'Poppins', sans-serif;
         }
-        .form-note {
-            font-size: 10px;
-            color: #666;
-            margin-top: 3px;
-            display: block;
-        }
-        .modal-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        .form-note { font-size: 10px; color: #666; margin-top: 3px; display: block; }
+        .modal-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
         .btn-save { background: #00c853; color: white; }
         .btn-cancel { background: #f44336; color: white; }
-
+        #status-msg { font-size: 12px; color: green; font-weight: bold; margin-top: 10px; display: none; text-align: center; }
     </style>
 </head>
 <body>
@@ -306,48 +205,36 @@
     <!-- Live Clock -->
     <div id="live-clock">00:00:00 AM</div>
 
-    <!-- Main Headline (Above Card) -->
+    <!-- Main Headline -->
     <h1 id="val-headline" class="main-headline">ANK KHAZANA</h1>
 
     <!-- Main Card -->
     <div class="card">
-        <!-- Watermark Number (Top & Bottom) -->
+        <!-- Watermark -->
         <div id="val-watermark1" class="watermark watermark-top">987 654 3210</div>
         <div id="val-watermark2" class="watermark watermark-bottom">987 654 3210</div>
 
         <!-- Header -->
         <div class="header">
-            <!-- New Added Image -->
             <img src="https://i.imgur.com/XvToOoW.png" class="header-icon" id="val-logo" alt="Market Logo">
             <h2 class="header-title" id="val-title">MAIN BAZAR</h2>
         </div>
 
         <div class="content-area">
-            <!-- Date & Live Button -->
             <div class="date-row">
-                <span id="val-datetime">31/07/2026 - 09:00 PM</span>
-                <div class="live-badge">
-                    <div class="live-dot"></div> LIVE
-                </div>
+                <span id="val-datetime">Loading...</span>
+                <div class="live-badge"><div class="live-dot"></div> LIVE</div>
             </div>
-
-            <!-- OTC -->
             <div class="section">
                 <div class="section-title">OTC</div>
-                <div class="otc-box" id="val-otc">5 / 8</div>
+                <div class="otc-box" id="val-otc">- / -</div>
             </div>
-
-            <!-- PANEL -->
             <div class="section">
                 <div class="section-title">PANEL</div>
-                <!-- Dynamic Grid for Panel -->
                 <div class="grid-dynamic" id="container-panels"></div>
             </div>
-
-            <!-- JODI -->
             <div class="section">
                 <div class="section-title">JODI</div>
-                <!-- Dynamic Grid for Jodi -->
                 <div class="grid-dynamic" id="container-jodis"></div>
             </div>
         </div>
@@ -356,7 +243,7 @@
     <!-- Contact Info -->
     <div class="footer-info">
         <p>Call For Demo</p>
-        <h2 id="val-phone">+91 9876543210</h2>
+        <h2 id="val-phone">Loading...</h2>
     </div>
 
     <!-- Settings Button -->
@@ -365,157 +252,158 @@
     <!-- Settings Modal -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal">
-            <h3>Edit Details</h3>
-            
-            <div class="form-group">
-                <label>Top Headline</label>
-                <input type="text" id="inp-headline">
-            </div>
-            <div class="form-group">
-                <label>Logo Image URL</label>
-                <input type="text" id="inp-logo">
-            </div>
-            <div class="form-group">
-                <label>Market Name (Card Title)</label>
-                <input type="text" id="inp-title">
-            </div>
-            <div class="form-group">
-                <label>Watermark Background</label>
-                <input type="text" id="inp-watermark">
-            </div>
-            <div class="form-group">
-                <label>Date & Time</label>
-                <input type="text" id="inp-datetime">
-            </div>
-            <div class="form-group">
-                <label>OTC</label>
-                <input type="text" id="inp-otc">
-            </div>
-            <div class="form-group">
-                <label>PANEL</label>
-                <input type="text" id="inp-panels">
-                <span class="form-note">Put comma (,) between numbers (e.g. 348, 122, 288)</span>
-            </div>
-            <div class="form-group">
-                <label>JODI</label>
-                <input type="text" id="inp-jodis">
-                <span class="form-note">Put comma (,) between numbers (e.g. 53, 58, 85)</span>
-            </div>
-            <div class="form-group">
-                <label>Demo Mobile Number</label>
-                <input type="text" id="inp-phone">
-            </div>
-
+            <h3>Edit Live Details</h3>
+            <div class="form-group"><label>Top Headline</label><input type="text" id="inp-headline"></div>
+            <div class="form-group"><label>Logo Image URL</label><input type="text" id="inp-logo"></div>
+            <div class="form-group"><label>Market Name</label><input type="text" id="inp-title"></div>
+            <div class="form-group"><label>Watermark Number</label><input type="text" id="inp-watermark"></div>
+            <div class="form-group"><label>Date & Time</label><input type="text" id="inp-datetime"></div>
+            <div class="form-group"><label>OTC</label><input type="text" id="inp-otc"></div>
+            <div class="form-group"><label>PANEL (Comma separated)</label><input type="text" id="inp-panels"></div>
+            <div class="form-group"><label>JODI (Comma separated)</label><input type="text" id="inp-jodis"></div>
+            <div class="form-group"><label>Mobile Number</label><input type="text" id="inp-phone"></div>
+            <div id="status-msg">Saving...</div>
             <div class="modal-btns">
                 <button class="btn btn-cancel" onclick="closeSettings()">Cancel</button>
-                <button class="btn btn-save" onclick="saveSettings()">Save Changes</button>
+                <button class="btn btn-save" onclick="saveSettings()">Save to Live</button>
             </div>
         </div>
     </div>
 
-    <!-- Script -->
-    <script>
-        // Default Data Arrays for Dynamic Boxes
-        let panelNumbers = ['348', '122', '288', '170'];
-        let jodiNumbers = ['53', '58', '85', '80'];
+    <!-- FIREBASE MODULE SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Function to render dynamic boxes
-        function renderBoxes(containerId, numbersArray, colorClass) {
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDVxg4EZHm4D2zMrz_ndLzcqx3wkhdPdVc",
+            authDomain: "rudraksh-d74c3.firebaseapp.com",
+            databaseURL: "https://rudraksh-d74c3-default-rtdb.firebaseio.com",
+            projectId: "rudraksh-d74c3",
+            storageBucket: "rudraksh-d74c3.firebasestorage.app",
+            messagingSenderId: "270620722307",
+            appId: "1:270620722307:web:ff0278bb5d0e743df6c7b6",
+            measurementId: "G-LW5DNWYCKL"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const cardRef = ref(db, 'marketCard');
+
+        // Variables to hold current data
+        let currentData = {
+            headline: 'ANK KHAZANA',
+            logo: 'https://i.imgur.com/XvToOoW.png',
+            title: 'MAIN BAZAR',
+            watermark: '987 654 3210',
+            datetime: '31/07/2026 - 09:00 PM',
+            otc: '5 / 8',
+            panels: '348, 122, 288, 170',
+            jodis: '53, 58, 85, 80',
+            phone: '+91 9876543210'
+        };
+
+        // Real-time Data Listener (Auto Updates UI)
+        onValue(cardRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                currentData = data;
+                updateUI(data);
+            } else {
+                updateUI(currentData); // Load defaults if database is empty
+            }
+        });
+
+        // Update UI Function
+        function updateUI(data) {
+            document.getElementById('val-headline').innerText = data.headline || '';
+            document.getElementById('val-logo').src = data.logo || '';
+            document.getElementById('val-title').innerText = data.title || '';
+            document.getElementById('val-datetime').innerText = data.datetime || '';
+            document.getElementById('val-otc').innerText = data.otc || '';
+            document.getElementById('val-phone').innerText = data.phone || '';
+
+            // Update Watermark
+            const wmTxt = data.watermark || '';
+            document.getElementById('val-watermark1').innerText = wmTxt;
+            document.getElementById('val-watermark2').innerText = wmTxt;
+            const disp = wmTxt.trim() === '' ? 'none' : 'block';
+            document.getElementById('val-watermark1').style.display = disp;
+            document.getElementById('val-watermark2').style.display = disp;
+
+            // Render Dynamic Boxes
+            renderBoxes('container-panels', data.panels.split(','), 'green');
+            renderBoxes('container-jodis', data.jodis.split(','), 'orange');
+        }
+
+        // Render Boxes
+        function renderBoxes(containerId, array, colorClass) {
             const container = document.getElementById(containerId);
             container.innerHTML = ''; 
-            
-            numbersArray.forEach(num => {
+            array.forEach(num => {
                 let val = num.trim();
-                if(val !== "") {
-                    container.innerHTML += `<div class="box ${colorClass}">${val}</div>`;
-                }
+                if(val !== "") container.innerHTML += `<div class="box ${colorClass}">${val}</div>`;
             });
         }
 
-        // Initialize App
-        function initApp() {
-            renderBoxes('container-panels', panelNumbers, 'green');
-            renderBoxes('container-jodis', jodiNumbers, 'orange');
-        }
+        // Assigning functions to window so HTML buttons can click them
+        window.openSettings = function() {
+            document.getElementById('inp-headline').value = currentData.headline;
+            document.getElementById('inp-logo').value = currentData.logo;
+            document.getElementById('inp-title').value = currentData.title;
+            document.getElementById('inp-watermark').value = currentData.watermark;
+            document.getElementById('inp-datetime').value = currentData.datetime;
+            document.getElementById('inp-otc').value = currentData.otc;
+            document.getElementById('inp-panels').value = currentData.panels;
+            document.getElementById('inp-jodis').value = currentData.jodis;
+            document.getElementById('inp-phone').value = currentData.phone;
+            document.getElementById('settings-modal').style.display = 'flex';
+        };
+
+        window.closeSettings = function() {
+            document.getElementById('settings-modal').style.display = 'none';
+            document.getElementById('status-msg').style.display = 'none';
+        };
+
+        window.saveSettings = function() {
+            const statusMsg = document.getElementById('status-msg');
+            statusMsg.style.display = 'block';
+            statusMsg.innerText = "Saving to Server...";
+
+            const newData = {
+                headline: document.getElementById('inp-headline').value,
+                logo: document.getElementById('inp-logo').value,
+                title: document.getElementById('inp-title').value,
+                watermark: document.getElementById('inp-watermark').value,
+                datetime: document.getElementById('inp-datetime').value,
+                otc: document.getElementById('inp-otc').value,
+                panels: document.getElementById('inp-panels').value,
+                jodis: document.getElementById('inp-jodis').value,
+                phone: document.getElementById('inp-phone').value
+            };
+
+            // Save to Firebase Database
+            set(cardRef, newData).then(() => {
+                statusMsg.innerText = "Saved Successfully!";
+                setTimeout(() => { closeSettings(); }, 800);
+            }).catch((error) => {
+                statusMsg.style.color = "red";
+                statusMsg.innerText = "Error: Please check Firebase Rules";
+                console.error(error);
+            });
+        };
 
         // Live Clock logic
-        function updateClock() {
+        setInterval(() => {
             const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let seconds = now.getSeconds();
-            let ampm = hours >= 12 ? 'PM' : 'AM';
-            
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            
-            const strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-            document.getElementById('live-clock').innerText = strTime;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-        initApp();
-
-        // Settings Modal Logic
-        const modal = document.getElementById('settings-modal');
-        const textFields = ['headline', 'title', 'datetime', 'otc', 'phone'];
-
-        function openSettings() {
-            // Load Normal Texts
-            textFields.forEach(field => {
-                document.getElementById(`inp-${field}`).value = document.getElementById(`val-${field}`).innerText;
-            });
-            
-            // Load Watermark (Using first one as reference)
-            document.getElementById('inp-watermark').value = document.getElementById('val-watermark1').innerText;
-            
-            // Load Logo Image URL
-            document.getElementById('inp-logo').value = document.getElementById('val-logo').src;
-
-            // Load Arrays joined by comma
-            document.getElementById('inp-panels').value = panelNumbers.join(', ');
-            document.getElementById('inp-jodis').value = jodiNumbers.join(', ');
-            
-            modal.style.display = 'flex';
-        }
-
-        function closeSettings() {
-            modal.style.display = 'none';
-        }
-
-        function saveSettings() {
-            // Save Normal Texts
-            textFields.forEach(field => {
-                document.getElementById(`val-${field}`).innerText = document.getElementById(`inp-${field}`).value;
-            });
-
-            // Save Image Logo URL
-            document.getElementById('val-logo').src = document.getElementById('inp-logo').value;
-
-            // Save Watermarks (Update Both Top and Bottom)
-            let wmInput = document.getElementById('inp-watermark').value;
-            document.getElementById('val-watermark1').innerText = wmInput;
-            document.getElementById('val-watermark2').innerText = wmInput;
-            
-            // Show/Hide watermark entirely if empty
-            let wmDisplay = wmInput.trim() === '' ? 'none' : 'block';
-            document.getElementById('val-watermark1').style.display = wmDisplay;
-            document.getElementById('val-watermark2').style.display = wmDisplay;
-
-            // Save & Render Arrays
-            let panelsInput = document.getElementById('inp-panels').value;
-            let jodisInput = document.getElementById('inp-jodis').value;
-            
-            panelNumbers = panelsInput.split(',');
-            jodiNumbers = jodisInput.split(',');
-            
-            renderBoxes('container-panels', panelNumbers, 'green');
-            renderBoxes('container-jodis', jodiNumbers, 'orange');
-
-            closeSettings();
-        }
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12; h = h ? h : 12;
+            m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
+            document.getElementById('live-clock').innerText = `${h}:${m}:${s} ${ampm}`;
+        }, 1000);
     </script>
 </body>
 </html>
