@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUDRAKSA KA WADA - OTC MASTER</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .poster-card {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a0000 50%, #050505 100%);
+            border: 4px solid #ffcc00;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            padding: 25px 20px;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .top-tag {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .main-title {
+            color: #ffcc00;
+            font-size: 2.4rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 10px rgba(255, 0, 0, 0.7);
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        .sub-title-bg {
+            background: #d60000;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 800;
+            padding: 5px 15px;
+            display: inline-block;
+            border-radius: 5px;
+            margin: 8px 0 15px 0;
+            text-transform: uppercase;
+        }
+
+        .otc-master-box {
+            background: #ffcc00;
+            color: #000;
+            font-size: 2.2rem;
+            font-weight: 900;
+            padding: 8px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+        }
+
+        .otc-master-box span {
+            display: block;
+            background: #b30000;
+            color: #fff;
+            font-size: 1.4rem;
+            padding: 3px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        /* Call to Action Box (WhatsApp Center Box) */
+        .cta-whatsapp-box {
+            background: linear-gradient(135deg, #111, #222);
+            border: 3px dashed #25D366;
+            border-radius: 15px;
+            padding: 20px 15px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 20px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.8);
+        }
+
+        .whatsapp-btn i {
+            font-size: 2rem;
+        }
+
+        /* Feature Badges */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item {
+            background: #111;
+            border: 1px solid #ffcc00;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .feature-item i {
+            color: #ffcc00;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* 3 Ank Section */
+        .ank-section {
+            border-top: 2px dashed #ffcc00;
+            border-bottom: 2px dashed #ffcc00;
+            padding: 12px 0;
+            margin: 15px 0;
+        }
+
+        .ank-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ffcc00;
+        }
+
+        .ank-sub {
+            background: #d60000;
+            color: #fff;
+            padding: 4px 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* Market Badges */
+        .market-title {
+            color: #ffcc00;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 15px 0 10px 0;
+        }
+
+        .market-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .market-badge {
+            background: #1e3c72;
+            color: #fff;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 20px;
+            border: 1px solid #00d2ff;
+        }
+
+        .market-badge.green {
+            background: #11998e;
+            border-color: #38ef7d;
+        }
+
+        .market-badge.pink {
+            background: #8e2de2;
+            border-color: #4a00e0;
+        }
+
+        /* Price Section */
+        .price-box {
+            background: #d60000;
+            color: #ffcc00;
+            font-size: 2rem;
+            font-weight: 900;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #ffcc00;
+        }
+
+        .price-box span {
+            color: #fff;
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .footer-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #ccc;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster-card">
+        <div class="top-tag">|| विश्वास ही हमारी पहचान है ||</div>
+        
+        <h1 class="main-title">RUDRAKSA</h1>
+        <div class="sub-title-bg">KA WADA</div>
+
+        <div class="otc-master-box">
+            OTC MASTER
+            <span>ALL MARKET</span>
+        </div>
+
+        <!-- CENTER WHATSAPP BOX -->
+        <div class="cta-whatsapp-box">
+            <a href="https://whatsapp.com/channel/0029VbD6tpr2f3EPrirUkj1g" target="_blank" class="whatsapp-btn">
+                <i class="fa-brands fa-whatsapp"></i>
+                JOIN WHATSAPP CHANNEL
+            </a>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="features-grid">
+            <div class="feature-item">
+                <i class="fa-solid fa-bullseye"></i>
+                EXPERT GUIDANCE
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                TRUSTED SERVICE
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+                100% SUPPORT
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-headset"></i>
+                24x7 HELP
+            </div>
+        </div>
+
+        <!-- 3 ANK FIX -->
+        <div class="ank-section">
+            <div class="ank-title">⚡ 3 ANK ⚡</div>
+            <div class="ank-sub">OPEN MISS CLOSE FIX</div>
+        </div>
+
+        <!-- ALL MARKET LIST -->
+        <div class="market-title">➤ ALL MARKET ◄</div>
+        <div class="market-list">
+            <span class="market-badge pink">SRIDEVI</span>
+            <span class="market-badge">TIME BAZAR</span>
+            <span class="market-badge pink">MILAN</span>
+            <span class="market-badge green">RAJDHANI</span>
+            <span class="market-badge green">KALYAN</span>
+            <span class="market-badge">MAIN BAZAR</span>
+            <span class="market-badge pink">MILAN NIGHT</span>
+            <span class="market-badge green">RAJDHANI NIGHT</span>
+            <span class="market-badge green">KALYAN NIGHT</span>
+        </div>
+
+        <!-- PRICE -->
+        <div class="price-box">
+            JUST ₹499/-
+        </div>
+
+        <!-- FOOTER TEXT -->
+        <div class="footer-text">
+            <span>Koshish Nahi... Wada Hai...</span>
+            <span>Sahi Jankari Sahi Faisla</span>
+        </div>
+    </div>
+
+</body>
+</html>
